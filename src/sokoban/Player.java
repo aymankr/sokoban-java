@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sokoban;
 
 /**
  *
  * @author A
  */
-public class Sokoban {
+public class Player {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Board b = new Board("test", 4, 5);
+        b.display();
     }
     
 }

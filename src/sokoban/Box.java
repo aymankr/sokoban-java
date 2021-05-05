@@ -1,11 +1,10 @@
-public class Case {
+public class Box {
 
 
     private final Coordinates coord;
     private char nature = '.';
 
-
-    public Case(Coordinates coord) {
+    public Box(Coordinates coord) {
         this.coord = coord;
     }
 

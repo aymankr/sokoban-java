@@ -38,7 +38,6 @@ public class Board {
     }
 
     public void display() {
-
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 System.out.print(board[i][j].getNature() + " ");
@@ -46,7 +45,6 @@ public class Board {
             System.out.println("");
         }
         System.out.println();
-
     }
 
     public void addHorizontalWall(int x, int y, int length) {
@@ -75,16 +73,27 @@ public class Board {
         c.setNature('P');
     }
 
-    public void refreshMyPos(String move) {
+    public void refreshPositions(String move) {
         board[myPosition.getRow()][myPosition.getColumn()].setNature('.');
         Direction d = Direction.dirCorrespond(move);
-        int newR = myPosition.getRow() + d.getDr();
-        int newC = myPosition.getColumn() + d.getDc();
-        if (!board[newR][newC].isWall()) {
-            myPosition = new Position(newR, newC);
-        }
-        else {
+        int newRow = myPosition.getRow() + d.getDr();
+        int newCol = myPosition.getColumn() + d.getDc();
+        Position myNewPos = new Position(newRow, newCol);
+        Position nextMyNewPos = new Position(newRow + d.getDr(), newCol + d.getDc());
+
+        refreshPosBox(d, newRow, newCol, myNewPos, nextMyNewPos);
+
+        if (myNewPos.isInBoard(this) && !board[newRow][newCol].isWall()) {
+            myPosition = myNewPos;
+        } else {
             System.out.println("Mouvement impossible.");
+        }
+    }
+
+    public void refreshPosBox(Direction d, int newRow, int newCol, Position myNewPos, Position nextMyNewPos) {
+        if (nextMyNewPos.isInBoard(this) && !board[nextMyNewPos.getRow()][nextMyNewPos.getColumn()].isWall() && board[newRow][newCol].isBox()) {
+            board[newRow][newCol].setNature('.');
+            board[nextMyNewPos.getRow()][nextMyNewPos.getColumn()].setNature('C');
         }
     }
 

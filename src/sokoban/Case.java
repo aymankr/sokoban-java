@@ -4,6 +4,7 @@ public class Case {
     private Position pos;
     private char nature = '.';
     private boolean isWall = false;
+    private boolean isBox = false;
 
     public Case(Position pos) {
         this.pos = pos;
@@ -13,6 +14,9 @@ public class Case {
         this.nature = nature;
         if (nature == '#') {
             isWall = true;
+        }
+        else if (nature == 'C') {
+            isBox = true;
         }
         else {
             isWall = false;
@@ -29,5 +33,9 @@ public class Case {
 
     public boolean isWall() {
         return isWall;
+    }
+
+    public boolean isBox() {
+        return isBox;
     }
 }

@@ -44,12 +44,12 @@ public class Player {
     }
 
     private static void initBoard(Board b) {
-        b.addHorizontalWall(0, 0, b.getWidth());
+        b.addHorizontalWall(0, 0, 2);
         b.addHorizontalWall(b.getHeight() - 1, 0, b.getWidth());
         b.addVerticalWall(1, 0, b.getHeight() - 1);
         b.addVerticalWall(1, b.getWidth() - 1, b.getHeight() - 1);
-        b.addBox(2, 1);
-        b.addBox(2, 2);
+        b.addBox(3,2);
+        b.addBox(1, 2);
         b.addTarget(3, 4);
         b.setMyPos(1, 1);
     }
@@ -58,7 +58,7 @@ public class Player {
         String move = readLine();
 
         if (possibleMove(move)) {
-            b.refreshMyPos(move);
+            b.refreshPositions(move);
             b.setMyPos(b.getMyPosition().getRow(), b.getMyPosition().getColumn());
         }
         else {

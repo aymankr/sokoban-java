@@ -13,13 +13,14 @@ public class Board {
     private String name;
     private int height;
     private int width;
-    private final Box[][] board;
+    private final Case[][] board;
+    private Position myPosition;
 
-    public Board(String name, int height, int width) {
+    public Board(String name, int width, int height) {
         this.name = name;
         this.height = height;
         this.width = width;
-        this.board = new Box[height][width];
+        this.board = new Case[width][height];
         initBoard();
     }
 
@@ -28,19 +29,18 @@ public class Board {
      *
      */
     private void initBoard() {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                Coordinates c = new Coordinates(i, j);
-                board[i][j] = new Box(c);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Position c = new Position(i, j);
+                board[i][j] = new Case(c);
             }
         }
     }
 
     public void display() {
-        System.out.println(name + "\n");
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 System.out.print(board[i][j].getNature() + " ");
             }
             System.out.println("");
@@ -69,12 +69,27 @@ public class Board {
         board[x][y].setNature('x');
     }
 
-    public void addCharacter(int x, int y) {
-        board[x][y].setNature('P');
+    public void setMyPos(int x, int y) {
+        Case c = board[x][y];
+        myPosition = c.getPos();
+        c.setNature('P');
     }
 
-    public void setPosition() {
+    public void refreshMyPos(String move) {
+        board[myPosition.getRow()][myPosition.getColumn()].setNature('.');
+        Direction d = Direction.dirCorrespond(move);
+        int newR = myPosition.getRow() + d.getDr();
+        int newC = myPosition.getColumn() + d.getDc();
+        if (!board[newR][newC].isWall()) {
+            myPosition = new Position(newR, newC);
+        }
+        else {
+            System.out.println("Mouvement impossible.");
+        }
+    }
 
+    public Position getMyPosition() {
+        return myPosition;
     }
 
     public String getName() {

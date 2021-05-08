@@ -1,4 +1,4 @@
-public class Coordinates {
+public class Position {
 
     private final int row;
     private final int column;
@@ -9,7 +9,7 @@ public class Coordinates {
      * @param numrow numéro de ligne
      * @param numcolumn numéro de colonne
      */
-    public Coordinates(int numRow, int numCol) {
+    public Position(int numRow, int numCol) {
         row = numRow;
         column = numCol;
     }
@@ -21,7 +21,16 @@ public class Coordinates {
      * @return retourne vrai ssi les coordonnées sont dans le plateau
      */
     public boolean isInBoard(Board b) {
-        return this.row >= 0 && this.column >= 0 && this.row <= b.getHeight()
-                && this.column <= b.getWidth();
+        return this.row >= 0 && this.column >= 0 && this.row <= b.getHeight()-1
+                && this.column <= b.getWidth() -1;
+    }
+
+    public int getRow() {
+        return this.row;
+    }
+
+
+    public int getColumn() {
+        return this.column;
     }
 }

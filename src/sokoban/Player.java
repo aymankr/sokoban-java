@@ -2,77 +2,97 @@
 import java.io.PrintStream;
 import java.util.Scanner;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
+ * Classe main
  *
- * @author A
+ * @author Ayman KACHMAR
  */
 public class Player {
 
-    private static Scanner in = new Scanner(System.in);
-    private static PrintStream out = System.out;
+    private static boolean playing = true;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        out.println("* Bienvenue sur Sokoban.\n");
+        System.out.println("\n* Bienvenue sur Sokoban.");
+        System.out.println("Saisissez 'q' pour quitter à tout moment.\n");
         game();
     }
 
-    public static void game() {
-        boolean loop = true;
-
+    /**
+     * Le jeu
+     */
+    private static void game() {
         Board b = new Board("test", 8, 8);
         initBoard(b);
+        boolean turn = true;
 
-        int n = 100;
-
-        while (loop) {
-            if (n % 2 == 0) {
+        while (playing) {
+            if (turn) {
                 b.display();
-                n--;
-            } else if (n % 2 == 1) {
+                turn = false;
+            } else {
                 refreshBoard(b);
-                n--;
+                turn = true;
             }
         }
     }
 
+    /**
+     * Initialiser un plateau
+     *
+     * @param b le plateau
+     */
     private static void initBoard(Board b) {
         b.addHorizontalWall(0, 0, 2);
         b.addHorizontalWall(b.getHeight() - 1, 0, b.getWidth());
-        b.addVerticalWall(1, 0, b.getHeight() - 1);
+        b.addVerticalWall(2, 1, 3);
         b.addVerticalWall(1, b.getWidth() - 1, b.getHeight() - 1);
-        b.addBox(6,2);
+        b.addBox(6, 2);
         b.addBox(0, 2);
         b.addBox(3, 3);
         b.addTarget(3, 4);
-        b.setMyPos(5, 2);
+        b.setMyPos(4, 3);
     }
 
+    /**
+     * Actualiser le plateau après les coups joués
+     *
+     * @param b le plateau
+     */
     private static void refreshBoard(Board b) {
-        String move = readLine();
+        String entry = readLine();
 
-        if (possibleMove(move)) {
-            b.refreshPositions(move);
+        if (possibleEntry(entry)) {
+            b.refreshPositions(entry);
             b.setMyPos(b.getMyPosition().getRow(), b.getMyPosition().getColumn());
+        } else if (entry.equals("q")) {
+            playing = false;
+            System.out.println("Bye.");
+        } else {
+            System.out.println("Aucun coup joué, réessayez.\n");
         }
-        else {
-            out.println("Aucun coup joué, réessayez.\n");
-        }
+
     }
 
-    private static boolean possibleMove(String move) {
-        return move != null && move.equals("U") || move.equals("R") || move.equals("L") || move.equals("D");
+    /**
+     * Vérifier que l'utilisateur peut uniquement entrer "L,R,U,D"
+     *
+     * @param entry l'entrée
+     * @return retourner vrai ss'il entre ceci
+     */
+    private static boolean possibleEntry(String entry) {
+        return entry != null && !entry.equals("") && entry.equals("U") || entry.equals("R") || entry.equals("L")
+                || entry.equals("D");
     }
 
+    /**
+     * Lire l'entrée
+     *
+     * @return retourner l'entrée
+     */
     private static String readLine() {
-        return in.nextLine().trim();
+        return new Scanner(System.in).nextLine().trim();
     }
 }

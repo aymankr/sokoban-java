@@ -75,29 +75,28 @@ public class Board {
 
     public void refreshPositions(String move) {
         Direction d = Direction.dirCorrespond(move);
-        int newRow = myPosition.getRow() + d.getDr();
-        int newCol = myPosition.getColumn() + d.getDc();
+
         Position myNewPos = myPosition.nextPosition(d);
         Position nextMyNewPos = myNewPos.nextPosition(d);
 
-        if (myNewPos.isInBoard(this) && !board[newRow][newCol].isWall() && !board[newRow][newCol].isBox()) {
+        if (myNewPos.isInBoard(this) && !getCase(myNewPos).isWall() && !getCase(myNewPos).isBox()) {
             refreshMyPosition(myNewPos);
-        } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this)
-                && !board[nextMyNewPos.getRow()][nextMyNewPos.getColumn()].isWall() && board[newRow][newCol].isBox()) {
-            refreshBoxPosition(newRow, newCol, nextMyNewPos);
+        } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this) && !getCase(nextMyNewPos).isWall()
+                && getCase(myNewPos).isBox()) {
+            refreshBoxPosition(myNewPos, nextMyNewPos);
             refreshMyPosition(myNewPos);
         } else {
-            System.out.println("Mouvement impossible");
+            System.out.println("Mouvement impossible.\n");
         }
     }
 
-    public void refreshBoxPosition(int newRow, int newCol, Position nextMyNewPos) {
-        board[newRow][newCol].setNature('.');
-        board[nextMyNewPos.getRow()][nextMyNewPos.getColumn()].setNature('C');
+    public void refreshBoxPosition(Position myNewPos, Position nextMyNewPos) {
+        getCase(myNewPos).setNature('.');
+        getCase(nextMyNewPos).setNature('C');
     }
 
     public void refreshMyPosition(Position myNewPos) {
-        board[myPosition.getRow()][myPosition.getColumn()].setNature('.');
+        getCase(myPosition).setNature('.');
         myPosition = myNewPos;
     }
 
@@ -115,5 +114,9 @@ public class Board {
 
     public int getWidth() {
         return this.width;
+    }
+
+    public Case getCase(Position p) {
+        return board[p.getRow()][p.getColumn()];
     }
 }

@@ -1,3 +1,4 @@
+
 public enum Direction {
     LEFT(-1, 0), RIGHT(1, 0), UP(0, -1), DOWN(0, 1);
 
@@ -12,18 +13,10 @@ public enum Direction {
     public static Direction dirCorrespond(String move) {
         Direction d = null;
         switch (move) {
-            case "L":
-                d = LEFT;
-                break;
-            case "R":
-                d = RIGHT;
-                break;
-            case "U":
-                d = UP;
-                break;
-            case "D":
-                d = DOWN;
-                break;
+            case "L" -> d = LEFT;
+            case "R" -> d = RIGHT;
+            case "U" -> d = UP;
+            case "D" -> d = DOWN;
         }
         return d;
     }

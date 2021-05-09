@@ -1,3 +1,4 @@
+
 public class Position {
 
     private final int row;
@@ -6,6 +7,8 @@ public class Position {
     /**
      * Constructeur d'un Coordonnees
      *
+     * @param numRow
+     * @param numCol
      * @param numrow numéro de ligne
      * @param numcolumn numéro de colonne
      */
@@ -25,6 +28,11 @@ public class Position {
                 && this.column <= b.getWidth() -1;
     }
 
+    public boolean isInExtremity(Board b) {
+        return row == 0 || row == b.getHeight()-1 || column == 0 || column == b.getWidth()-1;
+
+    }
+
     public int getRow() {
         return this.row;
     }
@@ -33,4 +41,8 @@ public class Position {
     public int getColumn() {
         return this.column;
     }
+
+    public Position nextPosition(Direction d) {
+        return new Position(row + d.getDr(), column + d.getDc());
+    } 
 }

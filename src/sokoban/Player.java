@@ -1,3 +1,4 @@
+
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -48,10 +49,11 @@ public class Player {
         b.addHorizontalWall(b.getHeight() - 1, 0, b.getWidth());
         b.addVerticalWall(1, 0, b.getHeight() - 1);
         b.addVerticalWall(1, b.getWidth() - 1, b.getHeight() - 1);
-        b.addBox(3,2);
-        b.addBox(1, 2);
+        b.addBox(6,2);
+        b.addBox(0, 2);
+        b.addBox(3, 3);
         b.addTarget(3, 4);
-        b.setMyPos(1, 1);
+        b.setMyPos(5, 2);
     }
 
     private static void refreshBoard(Board b) {
@@ -62,7 +64,7 @@ public class Player {
             b.setMyPos(b.getMyPosition().getRow(), b.getMyPosition().getColumn());
         }
         else {
-            out.println("Aucun coup joué.\n");
+            out.println("Aucun coup joué, réessayez.\n");
         }
     }
 

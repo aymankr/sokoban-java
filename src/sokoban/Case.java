@@ -1,41 +1,49 @@
+
 public class Case {
 
+    private final Position pos;
+    private Nature nature;
 
-    private Position pos;
-    private char nature = '.';
-    private boolean isWall = false;
-    private boolean isBox = false;
+    private enum Nature {
+        NONE, BOX, WALL, TARGET, MYPOS
+    };
 
     public Case(Position pos) {
         this.pos = pos;
+        nature = Nature.NONE;
     }
 
-    public void setNature(char nature) {
-        this.nature = nature;
-        if (nature == '#') {
-            isWall = true;
+    public char displayCase() {
+        char c = ' ';
+        switch (nature) {
+            case NONE -> c = '.';
+            case WALL -> c = '#';
+            case BOX -> c = 'C';
+            case TARGET -> c = 'x';
+            case MYPOS -> c = 'P';
         }
-        else if (nature == 'C') {
-            isBox = true;
-        }
-        else {
-            isWall = false;
-        }
+        return c;
     }
 
-    public char getNature() {
-        return this.nature;
-    }
-
-    public Position getPos() {
-        return pos;
+    public void setNature(char c) {
+        switch (c) {
+            case '#' -> nature = Nature.WALL;
+            case 'C' -> nature = Nature.BOX;
+            case 'P' -> nature = Nature.MYPOS;
+            case 'x' -> nature = Nature.TARGET;
+            case '.' -> nature = Nature.NONE;
+        }
     }
 
     public boolean isWall() {
-        return isWall;
+        return nature.equals(Nature.WALL);
     }
 
     public boolean isBox() {
-        return isBox;
+        return nature.equals(Nature.BOX);
+    }
+    
+    public Position getPos() {
+        return pos;
     }
 }

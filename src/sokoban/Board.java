@@ -10,9 +10,9 @@
  */
 public class Board {
 
-    private String name;
-    private int height;
-    private int width;
+    private final String name;
+    private final int height;
+    private final int width;
     private final Case[][] board;
     private Position myPosition;
 
@@ -40,7 +40,7 @@ public class Board {
     public void display() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                System.out.print(board[i][j].getNature() + " ");
+                System.out.print(board[i][j].displayCase() + " ");
             }
             System.out.println("");
         }
@@ -74,27 +74,31 @@ public class Board {
     }
 
     public void refreshPositions(String move) {
-        board[myPosition.getRow()][myPosition.getColumn()].setNature('.');
         Direction d = Direction.dirCorrespond(move);
         int newRow = myPosition.getRow() + d.getDr();
         int newCol = myPosition.getColumn() + d.getDc();
-        Position myNewPos = new Position(newRow, newCol);
-        Position nextMyNewPos = new Position(newRow + d.getDr(), newCol + d.getDc());
+        Position myNewPos = myPosition.nextPosition(d);
+        Position nextMyNewPos = myNewPos.nextPosition(d);
 
-        refreshPosBox(d, newRow, newCol, myNewPos, nextMyNewPos);
-
-        if (myNewPos.isInBoard(this) && !board[newRow][newCol].isWall()) {
-            myPosition = myNewPos;
+        if (myNewPos.isInBoard(this) && !board[newRow][newCol].isWall() && !board[newRow][newCol].isBox()) {
+            refreshMyPosition(myNewPos);
+        } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this)
+                && !board[nextMyNewPos.getRow()][nextMyNewPos.getColumn()].isWall() && board[newRow][newCol].isBox()) {
+            refreshBoxPosition(newRow, newCol, nextMyNewPos);
+            refreshMyPosition(myNewPos);
         } else {
-            System.out.println("Mouvement impossible.");
+            System.out.println("Mouvement impossible");
         }
     }
 
-    public void refreshPosBox(Direction d, int newRow, int newCol, Position myNewPos, Position nextMyNewPos) {
-        if (nextMyNewPos.isInBoard(this) && !board[nextMyNewPos.getRow()][nextMyNewPos.getColumn()].isWall() && board[newRow][newCol].isBox()) {
-            board[newRow][newCol].setNature('.');
-            board[nextMyNewPos.getRow()][nextMyNewPos.getColumn()].setNature('C');
-        }
+    public void refreshBoxPosition(int newRow, int newCol, Position nextMyNewPos) {
+        board[newRow][newCol].setNature('.');
+        board[nextMyNewPos.getRow()][nextMyNewPos.getColumn()].setNature('C');
+    }
+
+    public void refreshMyPosition(Position myNewPos) {
+        board[myPosition.getRow()][myPosition.getColumn()].setNature('.');
+        myPosition = myNewPos;
     }
 
     public Position getMyPosition() {

@@ -1,5 +1,3 @@
-
-import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
@@ -27,8 +25,11 @@ public class Player {
         Board b = new Board("test", 8, 8);
         initBoard(b);
         boolean turn = true;
+        boolean victory = false;
 
-        while (playing) {
+        while (playing && !victory) {
+            victory = b.noVictory();
+
             if (turn) {
                 b.display();
                 turn = false;
@@ -49,11 +50,13 @@ public class Player {
         b.addHorizontalWall(b.getHeight() - 1, 0, b.getWidth());
         b.addVerticalWall(2, 1, 3);
         b.addVerticalWall(1, b.getWidth() - 1, b.getHeight() - 1);
-        b.addBox(6, 2);
-        b.addBox(0, 2);
         b.addBox(3, 3);
         b.addTarget(3, 4);
-        b.setMyPos(4, 3);
+        b.setMyPos(5, 3);
+        b.addBox(5, 5);
+        b.addTarget(4, 3);
+        b.addTarget(6, 3);
+        b.addBox(6, 2);
     }
 
     /**
@@ -62,6 +65,7 @@ public class Player {
      * @param b le plateau
      */
     private static void refreshBoard(Board b) {
+        System.out.println("Saisissez un mouvement (L,R,U,D) : ");
         String entry = readLine();
 
         if (possibleEntry(entry)) {

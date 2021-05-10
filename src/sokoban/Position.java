@@ -27,8 +27,7 @@ public class Position {
      * @return retourne vrai ssi les coordonnées sont dans le plateau
      */
     public boolean isInBoard(Board b) {
-        return this.row >= 0 && this.column >= 0 && this.row <= b.getHeight() - 1
-                && this.column <= b.getWidth() - 1;
+        return this.row >= 0 && this.column >= 0 && this.row <= b.getHeight() - 1 && this.column <= b.getWidth() - 1;
     }
 
     /**

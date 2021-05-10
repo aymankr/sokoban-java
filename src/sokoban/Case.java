@@ -7,14 +7,8 @@
 public class Case {
 
     private final Position pos;
-    private Nature nature;
-
-    /**
-     * Enumeration des cinq natures possibles
-     */
-    private enum Nature {
-        NONE, BOX, WALL, TARGET, MYPOS
-    };
+    private char object;
+    private boolean isTarget;
 
     /**
      * Constructeur d'une case
@@ -23,7 +17,8 @@ public class Case {
      */
     public Case(Position pos) {
         this.pos = pos;
-        nature = Nature.NONE;
+        this.object = '.';
+        this.isTarget = false;
     }
 
     /**
@@ -32,15 +27,7 @@ public class Case {
      * @return retourner le caractère
      */
     public char displayCase() {
-        char c = ' ';
-        switch (nature) {
-            case NONE -> c = '.';
-            case WALL -> c = '#';
-            case BOX -> c = 'C';
-            case TARGET -> c = 'x';
-            case MYPOS -> c = 'P';
-        }
-        return c;
+        return object;
     }
 
     /**
@@ -48,23 +35,12 @@ public class Case {
      *
      * @param c le caractère
      */
-    public void setNature(char c) {
-        switch (c) {
-            case '#' -> nature = Nature.WALL;
-            case 'C' -> nature = Nature.BOX;
-            case 'P' -> nature = Nature.MYPOS;
-            case 'x' -> nature = Nature.TARGET;
-            case '.' -> nature = Nature.NONE;
+    public void setCar(char c, boolean byDefault) {
+        if (byDefault && isTarget) {
+            object = 'x';
+        } else {
+            object = c;
         }
-    }
-
-    /**
-     * Vérifier si cette case est un mur
-     *
-     * @return retourner vrai ssi c'est un mur
-     */
-    public boolean isWall() {
-        return nature.equals(Nature.WALL);
     }
 
     /**
@@ -73,7 +49,25 @@ public class Case {
      * @return retourner vrai ssi c'est une caisse
      */
     public boolean isBox() {
-        return nature.equals(Nature.BOX);
+        return object == 'B';
+    }
+
+    /**
+     * Vérifier si cette case est une caisse
+     *
+     * @return retourner vrai ssi c'est une caisse
+     */
+    public boolean isWall() {
+        return object == '#';
+    }
+
+    /**
+     * Vérifier si cette case est une caisse
+     *
+     * @return retourner vrai ssi c'est une caisse
+     */
+    public boolean isATarget() {
+        return object == 'x' || isTarget;
     }
 
     /**
@@ -84,4 +78,9 @@ public class Case {
     public Position getPos() {
         return pos;
     }
+
+    public void setIsTarget() {
+        isTarget = true;
+    }
+
 }

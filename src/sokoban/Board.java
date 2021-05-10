@@ -1,4 +1,6 @@
 
+import java.util.HashSet;
+
 /**
  * Constructeur d'un plateau
  *
@@ -11,12 +13,13 @@ public class Board {
     private final int width;
     private final Case[][] board;
     private Position myPosition;
+    private static HashSet<Case> listBoxes = new HashSet<Case>();
 
     /**
      * Constructeur d'un plateau
      *
-     * @param name son nom
-     * @param width son largeur
+     * @param name   son nom
+     * @param width  son largeur
      * @param height sa longueur
      */
     public Board(String name, int width, int height) {
@@ -56,26 +59,26 @@ public class Board {
     /**
      * Ajouter horizontalement des murs
      *
-     * @param x abscisse
-     * @param y ordonnée
+     * @param x      abscisse
+     * @param y      ordonnée
      * @param length longueur
      */
     public void addHorizontalWall(int x, int y, int length) {
         for (int i = 0; i < length; i++) {
-            board[x][y + i].setNature('#');
+            board[x][y + i].setCar('#', false);
         }
     }
 
     /**
      * Ajouter verticalement des murs
      *
-     * @param x abscisse
-     * @param y ordonnée
+     * @param x      abscisse
+     * @param y      ordonnée
      * @param length longueur
      */
     public void addVerticalWall(int x, int y, int length) {
         for (int i = 0; i < length; i++) {
-            board[x + i][y].setNature('#');
+            board[x + i][y].setCar('#', false);
         }
     }
 
@@ -86,7 +89,8 @@ public class Board {
      * @param y ordonée
      */
     public void addBox(int x, int y) {
-        board[x][y].setNature('C');
+        board[x][y].setCar('B', false);
+        listBoxes.add(board[x][y]);
     }
 
     /**
@@ -96,7 +100,8 @@ public class Board {
      * @param y ordonée
      */
     public void addTarget(int x, int y) {
-        board[x][y].setNature('x');
+        board[x][y].setCar('x', false);
+        board[x][y].setIsTarget();
     }
 
     /**
@@ -108,12 +113,12 @@ public class Board {
     public void setMyPos(int x, int y) {
         Case c = board[x][y];
         myPosition = c.getPos();
-        c.setNature('P');
+        c.setCar('P', false);
     }
 
     /**
-     * Actualiser les positions du plateau en vérifiant qu'il n'y a pas de mur
-     * et que la dimension du plateau est respectée
+     * Actualiser les positions du plateau en vérifiant qu'il n'y a pas de mur en
+     * face et que l'on reste dans le plateau
      *
      * @param move entrée du joueur
      */
@@ -125,8 +130,8 @@ public class Board {
         if (myNewPos.isInBoard(this) && !getCase(myNewPos).isWall() && !getCase(myNewPos).isBox()) {
             refreshMyPosition(myNewPos);
         } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this) && !getCase(nextMyNewPos).isWall()
-                && getCase(myNewPos).isBox()) {
-            refreshBoxPosition(myNewPos, nextMyNewPos);
+                && getCase(myNewPos).isBox() && !getCase(nextMyNewPos).isBox()) {
+            refreshBoxPosition(myNewPos, nextMyNewPos,d);
             refreshMyPosition(myNewPos);
         } else {
             System.out.println("Mouvement impossible.\n");
@@ -139,9 +144,12 @@ public class Board {
      * @param oldPos ancienne position
      * @param newPos nouvelle position
      */
-    private void refreshBoxPosition(Position oldPos, Position newPos) {
-        getCase(oldPos).setNature('.');
-        getCase(newPos).setNature('C');
+    private void refreshBoxPosition(Position oldPos, Position newPos, Direction d) {
+        getCase(oldPos).setCar('.', true);
+        
+        getCase(newPos).setCar('B', false);
+        listBoxes.remove(getCase(oldPos));
+        listBoxes.add(getCase(newPos));
     }
 
     /**
@@ -150,7 +158,7 @@ public class Board {
      * @param myNewPos nouvelle position
      */
     private void refreshMyPosition(Position myNewPos) {
-        getCase(myPosition).setNature('.');
+        getCase(myPosition).setCar('.', true);
         myPosition = myNewPos;
     }
 
@@ -198,5 +206,20 @@ public class Board {
      */
     private Case getCase(Position p) {
         return board[p.getRow()][p.getColumn()];
+    }
+
+    public boolean noVictory() {
+        boolean b = true;
+
+        for (Case c : listBoxes) {
+            if (!c.isATarget()) {
+                b = false;
+            }
+        }
+
+        if (b) {
+            System.out.println("Victoire !");
+        }
+        return b;
     }
 }

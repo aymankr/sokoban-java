@@ -122,19 +122,22 @@ public class Board {
      *
      * @param move entrée du joueur
      */
-    public void refreshPositions(String move) {
-        Direction d = Direction.dirCorrespond(move);
-        Position myNewPos = myPosition.nextPosition(d);
-        Position nextMyNewPos = myNewPos.nextPosition(d);
+    public void refreshPositions(String entry) {
+        for (int i = 0; i < entry.length(); i++) {
+            Direction dir = Direction.dirCorrespond(entry.charAt(i));
+            Position myNewPos = myPosition.nextPosition(dir);
+            Position nextMyNewPos = myNewPos.nextPosition(dir);
 
-        if (myNewPos.isInBoard(this) && !getCase(myNewPos).isWall() && !getCase(myNewPos).isBox()) {
-            refreshMyPosition(myNewPos);
-        } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this) && !getCase(nextMyNewPos).isWall()
-                && getCase(myNewPos).isBox() && !getCase(nextMyNewPos).isBox()) {
-            refreshBoxPosition(myNewPos, nextMyNewPos,d);
-            refreshMyPosition(myNewPos);
-        } else {
-            System.out.println("Mouvement impossible.\n");
+            if (myNewPos.isInBoard(this) && !getCase(myNewPos).isWall() && !getCase(myNewPos).isBox()) {
+                refreshMyPosition(myNewPos);
+            } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this) && !getCase(nextMyNewPos).isWall()
+                    && getCase(myNewPos).isBox()) {
+                refreshBoxPosition(myNewPos, nextMyNewPos, dir);
+                refreshMyPosition(myNewPos);
+            } else {
+                i++;
+            }
+            i++;
         }
     }
 
@@ -145,8 +148,6 @@ public class Board {
      * @param newPos nouvelle position
      */
     private void refreshBoxPosition(Position oldPos, Position newPos, Direction d) {
-        getCase(oldPos).setCar('.', true);
-        
         getCase(newPos).setCar('B', false);
         listBoxes.remove(getCase(oldPos));
         listBoxes.add(getCase(newPos));
@@ -212,9 +213,7 @@ public class Board {
         boolean b = true;
 
         for (Case c : listBoxes) {
-            if (!c.isATarget()) {
-                b = false;
-            }
+            b = b && c.isATarget();
         }
 
         if (b) {

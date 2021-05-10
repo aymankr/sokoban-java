@@ -50,13 +50,13 @@ public class Player {
         b.addHorizontalWall(b.getHeight() - 1, 0, b.getWidth());
         b.addVerticalWall(2, 1, 3);
         b.addVerticalWall(1, b.getWidth() - 1, b.getHeight() - 1);
+        b.setMyPos(4, 3);
         b.addBox(3, 3);
-        b.addTarget(3, 4);
-        b.setMyPos(5, 3);
-        b.addBox(5, 5);
-        b.addTarget(4, 3);
-        b.addTarget(6, 3);
-        b.addBox(6, 2);
+        b.addBox(2, 3);
+        // b.addBox(1, 3);
+        b.addTarget(6, 4);
+        b.addTarget(6, 5);
+        b.addTarget(6, 6);
     }
 
     /**
@@ -68,16 +68,15 @@ public class Player {
         System.out.println("Saisissez un mouvement (L,R,U,D) : ");
         String entry = readLine();
 
-        if (possibleEntry(entry)) {
-            b.refreshPositions(entry);
-            b.setMyPos(b.getMyPosition().getRow(), b.getMyPosition().getColumn());
-        } else if (entry.equals("q")) {
+        if (entry.equals("q")) {
             playing = false;
             System.out.println("Bye.");
+        } else if (possibleEntry(entry)) {
+            b.refreshPositions(entry);
+            b.setMyPos(b.getMyPosition().getRow(), b.getMyPosition().getColumn());
         } else {
             System.out.println("Aucun coup joué, réessayez.\n");
         }
-
     }
 
     /**
@@ -87,8 +86,14 @@ public class Player {
      * @return retourner vrai ss'il entre ceci
      */
     private static boolean possibleEntry(String entry) {
-        return entry != null && !entry.equals("") && entry.equals("U") || entry.equals("R") || entry.equals("L")
-                || entry.equals("D");
+        boolean possible = true;
+        int i = 0;
+
+        while (i < entry.length() && possible) {
+            possible = possible && "LRUD".contains("" + entry.charAt(i));
+            i++;
+        }
+        return possible;
     }
 
     /**

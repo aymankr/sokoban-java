@@ -27,13 +27,13 @@ public enum Direction {
      * @param move entrée de l'utilisateur
      * @return retourner la direction
      */
-    public static Direction dirCorrespond(String move) {
+    public static Direction dirCorrespond(char c) {
         Direction d = null;
-        switch (move) {
-            case "L" : d = LEFT; break;
-            case "R": d = RIGHT; break;
-            case "U" : d = UP; break;
-            case "D" : d = DOWN; break;
+        switch (c) {
+            case 'L' : d = LEFT; break;
+            case 'R': d = RIGHT; break;
+            case 'U' : d = UP; break;
+            case 'D' : d = DOWN; break;
         }
         return d;
     }

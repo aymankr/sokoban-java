@@ -1,5 +1,5 @@
 
-
+import java.io.File;
 import java.util.Scanner;
 
 /**
@@ -24,14 +24,18 @@ public class Player {
      * Le jeu
      */
     private static void game() {
-        var builder = new TextBoardBuilder("A Simple Board");
-        builder.addRow("# # # # # # # # #");
-        builder.addRow("# x . x # . . . .");
-        builder.addRow("# B . B . P . . .");
-        builder.addRow("# . . . . . . . .");
-        builder.addRow("# # # # # # # # #");
+        /*
+         * TextBoardBuilder builder = new TextBoardBuilder("A Simple Board");
+         * builder.addRow("# # # # # # # # #"); builder.addRow("# x . x # . . . .");
+         * builder.addRow("# B . B . P . . ."); builder.addRow("# . . . . . . . .");
+         * builder.addRow("# # # # # # # # #"); Board b1 = builder.build();
+         */
+
+        String path = System.getProperty("user.dir").replace('\\', '/') + "/datafiles/board1.txt";
+
+        FileBoardBuilder builder = new FileBoardBuilder(path, "A Board");
         Board b1 = builder.build();
-        
+
         boolean victory = false;
         boolean turn = true;
 

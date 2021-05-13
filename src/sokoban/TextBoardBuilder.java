@@ -2,7 +2,7 @@
 
 public class TextBoardBuilder implements BoardBuilder {
 
-    private String name;
+    private final String name;
     private int width;
     private int height;
     private String textBoard;

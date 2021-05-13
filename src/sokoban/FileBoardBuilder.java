@@ -27,5 +27,4 @@ public class FileBoardBuilder implements BoardBuilder {
 
         return textBoard.build();
     }
-
 }

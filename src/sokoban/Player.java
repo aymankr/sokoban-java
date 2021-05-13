@@ -1,5 +1,5 @@
 
-import java.io.File;
+
 import java.util.Scanner;
 
 /**
@@ -48,7 +48,6 @@ public class Player {
                 refreshBoard(b1);
                 turn = true;
             }
-
         }
     }
 
@@ -62,7 +61,7 @@ public class Player {
         String entry = readLine();
 
         if (possibleEntry(entry)) {
-            b.refreshPositions(entry);
+            b.refreshPositions(entry.toUpperCase());
             b.setMyPos(b.getMyPosition().getRow(), b.getMyPosition().getColumn());
         } else if (entry.equals("q")) {
             playing = false;
@@ -83,7 +82,7 @@ public class Player {
         int i = 0;
 
         while (i < entry.length() && possible) {
-            possible = possible && "LRUD".contains("" + entry.charAt(i));
+            possible = possible && "LRUDlrud".contains("" + entry.charAt(i));
             i++;
         }
         return possible;

@@ -1,4 +1,7 @@
-public class TextBoardBuilder {
+
+
+public class TextBoardBuilder implements BoardBuilder {
+
     private String name;
     private int width;
     private int height;
@@ -10,28 +13,30 @@ public class TextBoardBuilder {
     }
 
     public void addRow(String row) {
-        int plus = 0;
         textBoard += row + "\n";
-        if (row.length() % 2 == 1) {
-            plus = 1;
-        }
-        width = (row.length() / 2) + plus;
         height++;
     }
 
-    public Board createBoard() {
-        Board board = new Board(name, width, height);
-
+    @Override
+    public Board build() {
         String[] rows = textBoard.replace(" ", "").split("\n");
+        width = rows[0].length();
+        Board board = new Board(name, width, height);
         int numRow = 0;
 
         for (String s : rows) {
             for (int i = 0; i < width; i++) {
-                Position pos = new Position(numRow, i);
-                board.getCase(pos).setCar(s.charAt(i), false);
+                char object = s.charAt(i);
+                switch (object) {
+                    case '#' -> board.addHorizontalWall(numRow, i, 1);
+                    case 'x' -> board.addTarget(numRow, i);
+                    case 'B' -> board.addBox(numRow, i);
+                    case 'P' -> board.setMyPos(numRow, i);
+                }
             }
             numRow++;
         }
+
         return board;
     }
 }

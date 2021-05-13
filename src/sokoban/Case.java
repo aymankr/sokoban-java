@@ -1,4 +1,5 @@
 
+
 /**
  * Constructeur d'une case
  *
@@ -59,6 +60,15 @@ public class Case {
      */
     public boolean isWall() {
         return object == '#';
+    }
+
+    /**
+     * Vérifier si cette case est une caisse
+     *
+     * @return retourner vrai ssi c'est une caisse
+     */
+    public boolean isMyPos() {
+        return object == 'P';
     }
 
     /**

@@ -1,3 +1,5 @@
+
+
 import java.util.Scanner;
 
 /**
@@ -23,42 +25,27 @@ public class Player {
      */
     private static void game() {
         var builder = new TextBoardBuilder("A Simple Board");
-        builder.addRow("# # # # # # # # # #");
-        builder.addRow("# x . x # . . . . #");
-        builder.addRow("# . . . C C . P . #");
-        builder.addRow("# . . . . . . . . #");
-        builder.addRow("# # # # # # # # # #");
-        Board b1 = builder.createBoard();
-
-        /*Board b = new Board("test", 6, 8);
-        initBoard(b);*/
+        builder.addRow("# # # # # # # # #");
+        builder.addRow("# x . x # . . . .");
+        builder.addRow("# B . B . P . . .");
+        builder.addRow("# . . . . . . . .");
+        builder.addRow("# # # # # # # # #");
+        Board b1 = builder.build();
+        
         boolean victory = false;
+        boolean turn = true;
 
         while (playing && !victory) {
             victory = b1.victory();
-            b1.display();
-            refreshBoard(b1);
-        }
-    }
+            if (turn) {
+                b1.display();
+                turn = false;
+            } else {
+                refreshBoard(b1);
+                turn = true;
+            }
 
-    /**
-     * Initialiser un plateau
-     *
-     * @param b le plateau
-     */
-    private static void initBoard(Board b) {
-        b.addTarget(1, 0);
-        // b.addHorizontalWall(0, 0, 2);
-        b.addHorizontalWall(3, 0, 3);
-        b.addVerticalWall(2, 1, 3);
-        b.addVerticalWall(1, 5 - 1, 5 - 1);
-        b.setMyPos(0, 1);
-        b.addBox(3, 3);
-        b.addBox(2, 3);
-        // b.addBox(1, 3);
-        b.addTarget(4, 2);
-        b.addTarget(4, 3);
-        b.addTarget(4, 4);
+        }
     }
 
     /**

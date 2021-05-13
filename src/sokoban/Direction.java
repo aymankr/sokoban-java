@@ -1,4 +1,5 @@
 
+
 /**
  * Enumeration des quatre directions
  *
@@ -30,10 +31,15 @@ public enum Direction {
     public static Direction dirCorrespond(char c) {
         Direction d = null;
         switch (c) {
-            case 'L' -> d = LEFT;
-            case 'R' -> d = RIGHT;
-            case 'U' -> d = UP;
-            case 'D' -> d = DOWN;         }
+            case 'L' ->
+                d = LEFT;
+            case 'R' ->
+                d = RIGHT;
+            case 'U' ->
+                d = UP;
+            case 'D' ->
+                d = DOWN;
+        }
         return d;
     }
 

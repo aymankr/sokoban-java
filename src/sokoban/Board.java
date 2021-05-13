@@ -1,4 +1,5 @@
 
+
 import java.util.HashSet;
 
 /**
@@ -18,8 +19,8 @@ public class Board {
     /**
      * Constructeur d'un plateau
      *
-     * @param name   son nom
-     * @param width  son largeur
+     * @param name son nom
+     * @param width son largeur
      * @param height sa longueur
      */
     public Board(String name, int width, int height) {
@@ -59,8 +60,8 @@ public class Board {
     /**
      * Ajouter horizontalement des murs
      *
-     * @param x      abscisse
-     * @param y      ordonnée
+     * @param x abscisse
+     * @param y ordonnée
      * @param length longueur
      */
     public void addHorizontalWall(int x, int y, int length) {
@@ -72,8 +73,8 @@ public class Board {
     /**
      * Ajouter verticalement des murs
      *
-     * @param x      abscisse
-     * @param y      ordonnée
+     * @param x abscisse
+     * @param y ordonnée
      * @param length longueur
      */
     public void addVerticalWall(int x, int y, int length) {
@@ -117,8 +118,8 @@ public class Board {
     }
 
     /**
-     * Actualiser les positions du plateau en vérifiant qu'il n'y a pas de mur en
-     * face et que l'on reste dans le plateau
+     * Actualiser les positions du plateau en vérifiant qu'il n'y a pas de mur
+     * en face et que l'on reste dans le plateau
      *
      * @param entry
      */
@@ -217,16 +218,5 @@ public class Board {
             System.out.println("Victoire !");
         }
         return b;
-    }
-
-    public String boardToString() {
-        String s = "";
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                s = board[i][j].getCase() + " ";
-            }
-            System.out.println("");
-        }
-        return s;
     }
 }

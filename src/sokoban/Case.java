@@ -26,7 +26,7 @@ public class Case {
      *
      * @return retourner le caractère
      */
-    public char displayCase() {
+    public char getCase() {
         return object;
     }
 
@@ -34,12 +34,12 @@ public class Case {
      * Modifier la nature de la case en fonction du caractère d'entrée
      *
      * @param c le caractère
+     * @param byDefault
      */
     public void setCar(char c, boolean byDefault) {
+        object = c;
         if (byDefault && isTarget) {
             object = 'x';
-        } else {
-            object = c;
         }
     }
 

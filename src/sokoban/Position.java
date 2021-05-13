@@ -55,6 +55,6 @@ public class Position {
      * @return retourner cette position
      */
     public Position nextPosition(Direction d) {
-        return new Position(row + d.getDr(), column + d.getDc());
+        return new Position(row + d.getDr(),column + d.getDc()) ;
     }
 }

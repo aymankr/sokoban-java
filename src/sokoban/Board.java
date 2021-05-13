@@ -13,7 +13,7 @@ public class Board {
     private final int width;
     private final Case[][] board;
     private Position myPosition;
-    private static HashSet<Case> listBoxes = new HashSet<Case>();
+    private static final HashSet<Case> listBoxes = new HashSet<Case>();
 
     /**
      * Constructeur d'un plateau
@@ -26,7 +26,7 @@ public class Board {
         this.name = name;
         this.height = height;
         this.width = width;
-        this.board = new Case[width][height];
+        this.board = new Case[height][width];
         initBoard();
     }
 
@@ -35,8 +35,8 @@ public class Board {
      *
      */
     private void initBoard() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 Position c = new Position(i, j);
                 board[i][j] = new Case(c);
             }
@@ -47,9 +47,9 @@ public class Board {
      * Afficher le plateau
      */
     public void display() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                System.out.print(board[i][j].displayCase() + " ");
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                System.out.print(board[i][j].getCase() + " ");
             }
             System.out.println("");
         }
@@ -120,7 +120,7 @@ public class Board {
      * Actualiser les positions du plateau en vérifiant qu'il n'y a pas de mur en
      * face et que l'on reste dans le plateau
      *
-     * @param move entrée du joueur
+     * @param entry
      */
     public void refreshPositions(String entry) {
         for (int i = 0; i < entry.length(); i++) {
@@ -131,13 +131,10 @@ public class Board {
             if (myNewPos.isInBoard(this) && !getCase(myNewPos).isWall() && !getCase(myNewPos).isBox()) {
                 refreshMyPosition(myNewPos);
             } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this) && !getCase(nextMyNewPos).isWall()
-                    && getCase(myNewPos).isBox()) {
+                    && getCase(myNewPos).isBox() && !getCase(nextMyNewPos).isBox()) {
                 refreshBoxPosition(myNewPos, nextMyNewPos, dir);
                 refreshMyPosition(myNewPos);
-            } else {
-                i++;
             }
-            i++;
         }
     }
 
@@ -205,11 +202,11 @@ public class Board {
      * @param p la position
      * @return retourner la case
      */
-    private Case getCase(Position p) {
+    public Case getCase(Position p) {
         return board[p.getRow()][p.getColumn()];
     }
 
-    public boolean noVictory() {
+    public boolean victory() {
         boolean b = true;
 
         for (Case c : listBoxes) {
@@ -220,5 +217,16 @@ public class Board {
             System.out.println("Victoire !");
         }
         return b;
+    }
+
+    public String boardToString() {
+        String s = "";
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                s = board[i][j].getCase() + " ";
+            }
+            System.out.println("");
+        }
+        return s;
     }
 }

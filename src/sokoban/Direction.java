@@ -17,24 +17,23 @@ public enum Direction {
      * @param dr sur la ligne
      */
     private Direction(int dc, int dr) {
-        this.dr = dr;
         this.dc = dc;
+        this.dr = dr;
     }
 
     /**
      * Récolter la direction choisie
      *
-     * @param move entrée de l'utilisateur
+     * @param c
      * @return retourner la direction
      */
     public static Direction dirCorrespond(char c) {
         Direction d = null;
         switch (c) {
-            case 'L' : d = LEFT; break;
-            case 'R': d = RIGHT; break;
-            case 'U' : d = UP; break;
-            case 'D' : d = DOWN; break;
-        }
+            case 'L' -> d = LEFT;
+            case 'R' -> d = RIGHT;
+            case 'U' -> d = UP;
+            case 'D' -> d = DOWN;         }
         return d;
     }
 

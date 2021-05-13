@@ -22,21 +22,22 @@ public class Player {
      * Le jeu
      */
     private static void game() {
-        Board b = new Board("test", 8, 8);
-        initBoard(b);
-        boolean turn = true;
+        var builder = new TextBoardBuilder("A Simple Board");
+        builder.addRow("# # # # # # # # # #");
+        builder.addRow("# x . x # . . . . #");
+        builder.addRow("# . . . C C . P . #");
+        builder.addRow("# . . . . . . . . #");
+        builder.addRow("# # # # # # # # # #");
+        Board b1 = builder.createBoard();
+
+        /*Board b = new Board("test", 6, 8);
+        initBoard(b);*/
         boolean victory = false;
 
         while (playing && !victory) {
-            victory = b.noVictory();
-
-            if (turn) {
-                b.display();
-                turn = false;
-            } else {
-                refreshBoard(b);
-                turn = true;
-            }
+            victory = b1.victory();
+            b1.display();
+            refreshBoard(b1);
         }
     }
 
@@ -46,17 +47,18 @@ public class Player {
      * @param b le plateau
      */
     private static void initBoard(Board b) {
-        b.addHorizontalWall(0, 0, 2);
-        b.addHorizontalWall(b.getHeight() - 1, 0, b.getWidth());
+        b.addTarget(1, 0);
+        // b.addHorizontalWall(0, 0, 2);
+        b.addHorizontalWall(3, 0, 3);
         b.addVerticalWall(2, 1, 3);
-        b.addVerticalWall(1, b.getWidth() - 1, b.getHeight() - 1);
-        b.setMyPos(4, 3);
+        b.addVerticalWall(1, 5 - 1, 5 - 1);
+        b.setMyPos(0, 1);
         b.addBox(3, 3);
         b.addBox(2, 3);
         // b.addBox(1, 3);
-        b.addTarget(6, 4);
-        b.addTarget(6, 5);
-        b.addTarget(6, 6);
+        b.addTarget(4, 2);
+        b.addTarget(4, 3);
+        b.addTarget(4, 4);
     }
 
     /**
@@ -68,12 +70,12 @@ public class Player {
         System.out.println("Saisissez un mouvement (L,R,U,D) : ");
         String entry = readLine();
 
-        if (entry.equals("q")) {
-            playing = false;
-            System.out.println("Bye.");
-        } else if (possibleEntry(entry)) {
+        if (possibleEntry(entry)) {
             b.refreshPositions(entry);
             b.setMyPos(b.getMyPosition().getRow(), b.getMyPosition().getColumn());
+        } else if (entry.equals("q")) {
+            playing = false;
+            System.out.println("Bye.");
         } else {
             System.out.println("Aucun coup joué, réessayez.\n");
         }

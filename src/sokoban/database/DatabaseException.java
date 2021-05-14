@@ -1,4 +1,4 @@
-package sokoban;
+package sokoban.database;
 
 public class DatabaseException extends Exception {
 

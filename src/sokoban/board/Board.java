@@ -1,4 +1,4 @@
-package sokoban;
+package sokoban.board;
 
 import java.util.HashSet;
 

@@ -1,5 +1,10 @@
 package sokoban;
 
+import sokoban.database.Database;
+import sokoban.database.DatabaseException;
+import sokoban.builder.FileBoardBuilder;
+import sokoban.board.BuildException;
+import sokoban.board.Board;
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -31,19 +36,34 @@ public class Administrator {
             out.print("? ");
             String command = readLine();
             switch (command) {
-                case "1" -> database = new Database();
-                case "2" -> displayAllBoards();
-                case "3" -> displayABoard();
-                case "4" -> addBoard();
-                case "5" -> removeBoard();
-                case "q" -> { out.println("Bye."); loop = false; }
-                default -> out.println("-> commande inconnue '" + command + "'");
+                case "1" ->
+                    createNewBase();
+                case "2" ->
+                    displayAllBoards();
+                case "3" ->
+                    displayABoard();
+                case "4" ->
+                    addBoard();
+                case "5" ->
+                    removeBoard();
+                case "q" -> {
+                    out.println("Bye.");
+                    loop = false;
+                }
+                default ->
+                    out.println("-> commande inconnue '" + command + "'");
             }
         }
     }
 
     public static void displayAllBoards() throws DatabaseException {
         database.displayBoards();
+    }
+
+    private static void createNewBase() throws DatabaseException {
+        /*database = new Database();
+        database.remove("", false);*/
+        database = new Database();
     }
 
     private static void addBoard() throws BuildException, DatabaseException {
@@ -67,20 +87,38 @@ public class Administrator {
         database.displayBoards();
         out.println("Veuillez saisir l'id du plateau à afficher : ");
         String id = readLine();
-        database.displayRows(id);
+        if (database.idExists(id)) {
+            database.displayRows(id);
+        } else {
+            out.println("id introuvable.");
+            displayABoard();
+        }
     }
 
     private static void removeBoard() throws DatabaseException {
         database.displayBoards();
         out.println("Veuillez saisir l'id du plateau à supprimer : ");
         String id = readLine();
-        database.remove(id);
+        if (database.idExists(id)) {
+            database.remove(id, true);
+            out.println("succès.");
+        } else {
+            out.println("id introuvable.");
+            removeBoard();
+        }
     }
 
     public static Board getBoard() throws DatabaseException, BuildException {
         out.println("Veuillez saisir l'id du plateau de jeu : ");
         String id = readLine();
-        Board board = database.get(id);
+        Board board;
+
+        if (database.idExists(id)) {
+            board = database.get(id);
+        } else {
+            out.println("id introuvable.");
+            board = getBoard();
+        }
         return board;
     }
 

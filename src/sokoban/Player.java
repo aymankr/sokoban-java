@@ -1,5 +1,8 @@
 package sokoban;
 
+import sokoban.database.DatabaseException;
+import sokoban.board.BuildException;
+import sokoban.board.Board;
 import java.io.PrintStream;
 import java.util.Scanner;
 

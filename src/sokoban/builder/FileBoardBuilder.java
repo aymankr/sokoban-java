@@ -1,4 +1,6 @@
-package sokoban;
+package sokoban.builder;
+import sokoban.board.BuildException;
+import sokoban.board.Board;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -26,6 +28,7 @@ public class FileBoardBuilder implements BoardBuilder {
             System.out.println("Fichier non trouvé : " + ex);
         }
 
-        return textBoard.build();
+        Board board = textBoard.build();
+        return board;
     }
 }

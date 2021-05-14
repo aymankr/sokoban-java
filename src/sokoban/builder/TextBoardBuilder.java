@@ -1,4 +1,8 @@
-package sokoban;
+package sokoban.builder;
+
+import sokoban.board.BuildException;
+import sokoban.board.Board;
+
 public class TextBoardBuilder implements BoardBuilder {
 
     private final String name;

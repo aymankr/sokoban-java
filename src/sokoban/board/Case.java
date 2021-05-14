@@ -1,4 +1,4 @@
-package sokoban;
+package sokoban.board;
 
 /**
  * Constructeur d'une case

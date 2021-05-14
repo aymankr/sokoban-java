@@ -1,4 +1,4 @@
-package sokoban;
+package sokoban.board;
 
 public class BuildException extends Exception {
 

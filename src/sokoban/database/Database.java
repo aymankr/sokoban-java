@@ -1,5 +1,8 @@
-package sokoban;
+package sokoban.database;
 
+import sokoban.builder.TextBoardBuilder;
+import sokoban.board.BuildException;
+import sokoban.board.Board;
 import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashSet;
 
 public class Database {
 
@@ -51,7 +55,6 @@ public class Database {
             PreparedStatement insertRow = connection.prepareStatement(insertRowSQL);
 
             insertBoard.setString(1, id);
-
             insertBoard.setString(2, b.getName());
             insertBoard.setInt(3, b.getHeight());
             insertBoard.setInt(4, b.getWidth());
@@ -71,16 +74,23 @@ public class Database {
         }
     }
 
-    public void remove(String id) throws DatabaseException {
-        String deleteBoardSQL = "DELETE FROM boards WHERE board_id = ?";
-        String deleteRowsSQL = "DELETE FROM rows WHERE board_id = ?";
+    public void remove(String id, boolean isDeletingOne) throws DatabaseException {
+        String deleteFromIdSQL = "";
+        if (isDeletingOne) {
+            deleteFromIdSQL = "WHERE board_id = ?";
+        }
+
+        String deleteBoardSQL = "DELETE FROM boards " + deleteFromIdSQL;
+        String deleteRowsSQL = "DELETE FROM rows " + deleteFromIdSQL;
 
         try {
             PreparedStatement deleteBoard = connection.prepareStatement(deleteBoardSQL);
             PreparedStatement deleteRows = connection.prepareStatement(deleteRowsSQL);
 
-            deleteBoard.setString(1, id);
-            deleteRows.setString(1, id);
+            if (isDeletingOne) {
+                deleteBoard.setString(1, id);
+                deleteRows.setString(1, id);
+            }
             deleteBoard.executeUpdate();
             deleteRows.executeUpdate();
         } catch (SQLException ex) {
@@ -101,10 +111,10 @@ public class Database {
             PreparedStatement statementRows = connection.prepareStatement(getBoardSQL);
             statementRows.setString(1, id);
             ResultSet selectRows = statementRows.executeQuery();
-            builder = new TextBoardBuilder(selectName.getString("name"));
+            builder = new TextBoardBuilder(selectName.getString(1));
 
             while (selectRows.next()) {
-                builder.addRow(selectRows.getString("description"));
+                builder.addRow(selectRows.getString(1));
             }
         } catch (SQLException ex) {
             throw new DatabaseException(ex.getMessage());
@@ -124,10 +134,10 @@ public class Database {
             out.println("|-------------|---------------------------|---------|---------+");
 
             while (getAllBoards.next()) {
-                String id = getAllBoards.getString("board_id");
-                String name = getAllBoards.getString("name");
-                int numRows = getAllBoards.getInt("nb_rows");
-                int numCols = getAllBoards.getInt("nb_cols");
+                String id = getAllBoards.getString(1);
+                String name = getAllBoards.getString(2);
+                int numRows = getAllBoards.getInt(3);
+                int numCols = getAllBoards.getInt(4);
                 out.printf("| %-11s | %-25s | %-3d     | %-3d     |\n",
                         id, name, numRows, numCols);
             }
@@ -140,7 +150,7 @@ public class Database {
 
     public void displayRows(String boardId) throws DatabaseException {
         out.println("ROWS");
-        String getAllRowsSQL = "SELECT * FROM rows WHERE board_id = " + boardId;
+        String getAllRowsSQL = "SELECT * FROM rows WHERE board_id LIKE '" + boardId + "'";
 
         try {
             ResultSet getAllRows = connection.prepareStatement(getAllRowsSQL).executeQuery();
@@ -150,9 +160,9 @@ public class Database {
             out.println("|-------------|-------------------------------------|");
 
             while (getAllRows.next()) {
-                String id = getAllRows.getString("board_id");
-                int numRow = getAllRows.getInt("row_num");
-                String description = getAllRows.getString("description");
+                String id = getAllRows.getString(1);
+                int numRow = getAllRows.getInt(2);
+                String description = getAllRows.getString(3);
 
                 out.printf("| %-11s | %-3d     | %-25s |\n",
                         id, numRow, description);
@@ -162,5 +172,26 @@ public class Database {
         } catch (SQLException ex) {
             throw new DatabaseException(ex.getMessage());
         }
+    }
+
+    private HashSet<String> getAllIDs() throws DatabaseException {
+        String getIdsSQL = "SELECT board_id FROM boards";
+        HashSet<String> allIds = new HashSet<>();
+
+        try {
+            ResultSet getIds = connection.prepareStatement(getIdsSQL).executeQuery();
+
+            while (getIds.next()) {
+                String id = getIds.getString(1);
+                allIds.add(id);
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex.getMessage());
+        }
+        return allIds;
+    }
+
+    public boolean idExists(String id) throws DatabaseException {
+        return getAllIDs().contains(id);
     }
 }

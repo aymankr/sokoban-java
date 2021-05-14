@@ -15,7 +15,7 @@ public class TextBoardBuilder implements BoardBuilder {
         textBoard += row + "\n";
         height++;
     }
-
+    
     @Override
     public Board build() throws BuildException {
         String[] rows = textBoard.replace(" ", "").split("\n");

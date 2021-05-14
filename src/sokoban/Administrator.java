@@ -12,9 +12,9 @@ public class Administrator {
         out.println("* Bonjour.");
         menuAdmin();
     }
-    
+
     public Administrator() throws DatabaseException {
-        database = new Database("sokoban.sqlite3");
+        database = new Database();
     }
 
     private static void menuAdmin() throws DatabaseException, BuildException {
@@ -31,28 +31,13 @@ public class Administrator {
             out.print("? ");
             String command = readLine();
             switch (command) {
-                case "1":
-                    database = new Database("sokoban.sqlite3");
-                    break;
-                case "2":
-                    displayAllBoards();
-                    break;
-                case "3":
-                    displayABoard();
-                    break;
-                case "4":
-                    addBoard();
-                    break;
-                case "5":
-                    removeBoard();
-                    break;
-                case "q":
-                    out.println("-> Bye.");
-                    loop = false;
-                    break;
-                default:
-                    out.println("-> commande inconnue '" + command + "'");
-                    break;
+                case "1" -> database = new Database();
+                case "2" -> displayAllBoards();
+                case "3" -> displayABoard();
+                case "4" -> addBoard();
+                case "5" -> removeBoard();
+                case "q" -> { out.println("Bye."); loop = false; }
+                default -> out.println("-> commande inconnue '" + command + "'");
             }
         }
     }
@@ -60,7 +45,7 @@ public class Administrator {
     public static void displayAllBoards() throws DatabaseException {
         database.displayBoards();
     }
-    
+
     private static void addBoard() throws BuildException, DatabaseException {
         String absolutePath = System.getProperty("user.dir").replace('\\', '/') + "/datafiles/";
 
@@ -73,12 +58,13 @@ public class Administrator {
         FileBoardBuilder fileBoard = new FileBoardBuilder(path, name);
         Board board = fileBoard.build();
 
-        out.println("Veuillez saisir le numéro id de ce plateau dans la base : ");
+        out.println("Veuillez saisir l'id de ce plateau dans la base : ");
         String id = readLine();
         database.add(id, board);
     }
 
     private static void displayABoard() throws DatabaseException {
+        database.displayBoards();
         out.println("Veuillez saisir l'id du plateau à afficher : ");
         String id = readLine();
         database.displayRows(id);

@@ -1,5 +1,6 @@
 package sokoban;
 
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,12 +10,13 @@ import java.sql.Statement;
 
 public class Database {
 
+    private static final PrintStream out = System.out;
     private final Connection connection;
 
-    public Database(String path) throws DatabaseException {
+    public Database() throws DatabaseException {
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:" + path);
+            connection = DriverManager.getConnection("jdbc:sqlite:sokoban.sqlite3");
             createDatas();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new DatabaseException(ex.getMessage());
@@ -111,25 +113,25 @@ public class Database {
     }
 
     public void displayBoards() throws DatabaseException {
-        System.out.println("BOARDS");
+        out.println("BOARDS");
         String getAllBoardsSQL = "SELECT * FROM boards";
 
         try {
             ResultSet getAllBoards = connection.prepareStatement(getAllBoardsSQL).executeQuery();
 
-            System.out.println("|-------------|---------------------------|---------|---------|");
-            System.out.println("| board_id    | name                      | nb_rows | nb_cols |");
-            System.out.println("|-------------|---------------------------|---------|---------+");
+            out.println("|-------------|---------------------------|---------|---------|");
+            out.println("| board_id    | name                      | nb_rows | nb_cols |");
+            out.println("|-------------|---------------------------|---------|---------+");
 
             while (getAllBoards.next()) {
                 String id = getAllBoards.getString("board_id");
                 String name = getAllBoards.getString("name");
                 int numRows = getAllBoards.getInt("nb_rows");
                 int numCols = getAllBoards.getInt("nb_cols");
-                System.out.printf("| %-11s | %-25s | %-3d     | %-3d     |\n",
+                out.printf("| %-11s | %-25s | %-3d     | %-3d     |\n",
                         id, name, numRows, numCols);
             }
-            System.out.println("|-------------|---------------------------|---------|---------|");
+            out.println("|-------------|---------------------------|---------|---------|");
 
         } catch (SQLException ex) {
             throw new DatabaseException(ex.getMessage());
@@ -137,26 +139,26 @@ public class Database {
     }
 
     public void displayRows(String boardId) throws DatabaseException {
-        System.out.println("ROWS");
+        out.println("ROWS");
         String getAllRowsSQL = "SELECT * FROM rows WHERE board_id = " + boardId;
 
         try {
             ResultSet getAllRows = connection.prepareStatement(getAllRowsSQL).executeQuery();
 
-            System.out.println("|-------------|-------------------------------------|");
-            System.out.println("| board_id    | row_num | description               |");
-            System.out.println("|-------------|-------------------------------------|");
+            out.println("|-------------|-------------------------------------|");
+            out.println("| board_id    | row_num | description               |");
+            out.println("|-------------|-------------------------------------|");
 
             while (getAllRows.next()) {
                 String id = getAllRows.getString("board_id");
                 int numRow = getAllRows.getInt("row_num");
                 String description = getAllRows.getString("description");
 
-                System.out.printf("| %-11s | %-3d     | %-25s |\n",
+                out.printf("| %-11s | %-3d     | %-25s |\n",
                         id, numRow, description);
             }
-            
-            System.out.println("|-------------|-------------------------------------|");
+
+            out.println("|-------------|-------------------------------------|");
         } catch (SQLException ex) {
             throw new DatabaseException(ex.getMessage());
         }

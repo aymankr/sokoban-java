@@ -22,7 +22,6 @@ public class Player {
         System.out.println("Saisissez 'q' pour quitter à tout moment.\n");
 
         menuPlayer();
-        game();
     }
 
     private static void menuPlayer() throws DatabaseException, BuildException {
@@ -37,8 +36,9 @@ public class Player {
             String command = readLine();
             switch (command) {
                 case "1" -> {
-                    Administrator.displayAllBoards();
+                    admin.displayAllBoards();
                     board = admin.getBoard();
+                    game();
                     loop = false;
                 }
                 case "q" -> {
@@ -55,18 +55,6 @@ public class Player {
      * Le jeu
      */
     private static void game() throws BuildException {
-        /*
-         * TextBoardBuilder builder = new TextBoardBuilder("A Simple Board");
-         * builder.addRow("# # # # # # # # #"); builder.addRow("# x . x # . . . .");
-         * builder.addRow("# B . B . P . . ."); builder.addRow("# . . . . . . . .");
-         * builder.addRow("# # # # # # # # #"); Board b1 = builder.build();
-         */
-
- /*String path = System.getProperty("user.dir").replace('\\', '/') + "/datafiles/board1.txt";
-
-        FileBoardBuilder builder = new FileBoardBuilder(path, "A Board");
-        Board b1 = builder.build();
-         */
         boolean victory = false;
         boolean turn = true;
 

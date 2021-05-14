@@ -1,4 +1,6 @@
 package sokoban;
+
+import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
@@ -8,15 +10,45 @@ import java.util.Scanner;
  */
 public class Player {
 
+    private static final PrintStream out = System.out;
     private static boolean playing = true;
+    private static Board board;
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws BuildException {
+    public static void main(String[] args) throws BuildException, DatabaseException {
         System.out.println("\n* Bienvenue sur Sokoban.");
         System.out.println("Saisissez 'q' pour quitter à tout moment.\n");
+
+        menuPlayer();
         game();
+    }
+
+    private static void menuPlayer() throws DatabaseException, BuildException {
+        boolean loop = true;
+        final Administrator admin = new Administrator();
+
+        while (loop) {
+            out.println("* Menu");
+            out.println("1. Sélectionner un plateau pour jouer.");
+            out.println("q. Quitter.");
+            out.print("? ");
+            String command = readLine();
+            switch (command) {
+                case "1" -> {
+                    Administrator.displayAllBoards();
+                    board = admin.getBoard();
+                    loop = false;
+                }
+                case "q" -> {
+                    out.println("-> Bye.");
+                    loop = false;
+                }
+                default ->
+                    out.println("-> commande inconnue '" + command + "'");
+            }
+        }
     }
 
     /**
@@ -30,21 +62,21 @@ public class Player {
          * builder.addRow("# # # # # # # # #"); Board b1 = builder.build();
          */
 
-        String path = System.getProperty("user.dir").replace('\\', '/') + "/datafiles/board1.txt";
+ /*String path = System.getProperty("user.dir").replace('\\', '/') + "/datafiles/board1.txt";
 
         FileBoardBuilder builder = new FileBoardBuilder(path, "A Board");
         Board b1 = builder.build();
-
+         */
         boolean victory = false;
         boolean turn = true;
 
         while (playing && !victory) {
-            victory = b1.victory();
+            victory = board.victory();
             if (turn) {
-                b1.display();
+                board.display();
                 turn = false;
             } else {
-                refreshBoard(b1);
+                refreshBoard(board);
                 turn = true;
             }
         }

@@ -10,10 +10,14 @@ public class Administrator {
 
     public static void main(String[] args) throws DatabaseException, BuildException {
         out.println("* Bonjour.");
-        menu();
+        menuAdmin();
+    }
+    
+    public Administrator() throws DatabaseException {
+        database = new Database("sokoban.sqlite3");
     }
 
-    private static void menu() throws DatabaseException, BuildException {
+    private static void menuAdmin() throws DatabaseException, BuildException {
         boolean loop = true;
 
         while (loop) {
@@ -31,10 +35,10 @@ public class Administrator {
                     database = new Database("sokoban.sqlite3");
                     break;
                 case "2":
-                    database.displayBoards();
+                    displayAllBoards();
                     break;
                 case "3":
-                    displayBoard();
+                    displayABoard();
                     break;
                 case "4":
                     addBoard();
@@ -53,9 +57,13 @@ public class Administrator {
         }
     }
 
+    public static void displayAllBoards() throws DatabaseException {
+        database.displayBoards();
+    }
+    
     private static void addBoard() throws BuildException, DatabaseException {
         String absolutePath = System.getProperty("user.dir").replace('\\', '/') + "/datafiles/";
-        
+
         out.println("Veuillez saisir le nom du fichier texte situé dans datafiles (exemple : 'nomdufichier.txt')");
         String boardFile = readLine();
         String path = absolutePath + boardFile;
@@ -70,7 +78,7 @@ public class Administrator {
         database.add(id, board);
     }
 
-    private static void displayBoard() throws DatabaseException {
+    private static void displayABoard() throws DatabaseException {
         out.println("Veuillez saisir l'id du plateau à afficher : ");
         String id = readLine();
         database.displayRows(id);
@@ -81,6 +89,13 @@ public class Administrator {
         out.println("Veuillez saisir l'id du plateau à supprimer : ");
         String id = readLine();
         database.remove(id);
+    }
+
+    public static Board getBoard() throws DatabaseException, BuildException {
+        out.println("Veuillez saisir l'id du plateau de jeu : ");
+        String id = readLine();
+        Board board = database.get(id);
+        return board;
     }
 
     /**

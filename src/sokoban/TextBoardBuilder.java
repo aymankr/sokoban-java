@@ -1,5 +1,4 @@
-
-
+package sokoban;
 public class TextBoardBuilder implements BoardBuilder {
 
     private final String name;
@@ -18,23 +17,27 @@ public class TextBoardBuilder implements BoardBuilder {
     }
 
     @Override
-    public Board build() {
+    public Board build() throws BuildException {
         String[] rows = textBoard.replace(" ", "").split("\n");
         width = rows[0].length();
         Board board = new Board(name, width, height);
         int numRow = 0;
 
-        for (String s : rows) {
-            for (int i = 0; i < width; i++) {
-                char object = s.charAt(i);
-                switch (object) {
-                    case '#' -> board.addHorizontalWall(numRow, i, 1);
-                    case 'x' -> board.addTarget(numRow, i);
-                    case 'B' -> board.addBox(numRow, i);
-                    case 'P' -> board.setMyPos(numRow, i);
+        try {
+            for (String s : rows) {
+                for (int i = 0; i < width; i++) {
+                    char object = s.charAt(i);
+                    switch (object) {
+                        case '#' -> board.addHorizontalWall(numRow, i, 1);
+                        case 'x' -> board.addTarget(numRow, i);
+                        case 'B' -> board.addBox(numRow, i);
+                        case 'P' -> board.setMyPos(numRow, i);
+                    }
                 }
+                numRow++;
             }
-            numRow++;
+        } catch (StringIndexOutOfBoundsException ex) {
+            throw new BuildException(ex.getMessage());
         }
 
         return board;

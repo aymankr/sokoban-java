@@ -1,4 +1,4 @@
-
+package sokoban;
 /**
  * Enumeration des quatre directions
  *

@@ -1,3 +1,5 @@
+
+package sokoban;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -13,7 +15,7 @@ public class FileBoardBuilder implements BoardBuilder {
     }
 
     @Override
-    public Board build() {
+    public Board build() throws BuildException {
 
         TextBoardBuilder textBoard = new TextBoardBuilder(boardName);
         try (Scanner scanner = new Scanner(new File(path))) {

@@ -1,5 +1,4 @@
-
-
+package sokoban;
 import java.util.Scanner;
 
 /**
@@ -14,7 +13,7 @@ public class Player {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws BuildException {
         System.out.println("\n* Bienvenue sur Sokoban.");
         System.out.println("Saisissez 'q' pour quitter à tout moment.\n");
         game();
@@ -23,7 +22,7 @@ public class Player {
     /**
      * Le jeu
      */
-    private static void game() {
+    private static void game() throws BuildException {
         /*
          * TextBoardBuilder builder = new TextBoardBuilder("A Simple Board");
          * builder.addRow("# # # # # # # # #"); builder.addRow("# x . x # . . . .");

@@ -1,4 +1,4 @@
-
+package sokoban;
 /**
  * Constructeur d'une position
  *

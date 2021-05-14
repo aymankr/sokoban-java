@@ -1,4 +1,4 @@
-
+package sokoban;
 
 import java.util.HashSet;
 
@@ -218,5 +218,17 @@ public class Board {
             System.out.println("Victoire !");
         }
         return b;
+    }
+
+    public String[] getRowsBoard() {
+        String s = "";
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                s += board[i][j].getCase() + " ";
+            }
+            s += "\n";
+        }
+
+        return s.split("\n");
     }
 }

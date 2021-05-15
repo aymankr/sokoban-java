@@ -3,7 +3,7 @@ package sokoban.board;
 import java.util.HashSet;
 
 /**
- * Constructeur d'un plateau
+ * Classe d'un plateau (Board)
  *
  * @author Ayman KACHMAR
  */
@@ -121,7 +121,7 @@ public class Board {
      * Actualiser les positions du plateau en vérifiant qu'il n'y a pas de mur
      * en face et que l'on reste dans le plateau
      *
-     * @param entry
+     * @param entry entrée de l'utilisateur
      */
     public void refreshPositions(String entry) {
         for (int i = 0; i < entry.length(); i++) {
@@ -131,7 +131,6 @@ public class Board {
 
             if (myNewPos.isInBoard(this) && !getCell(myNewPos).isWall() && !getCell(myNewPos).isBox()) {
                 refreshMyPosition(myNewPos);
-
             } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this) && !getCell(nextMyNewPos).isWall()
                     && getCell(myNewPos).isBox() && !getCell(nextMyNewPos).isBox()) {
                 refreshBoxPosition(myNewPos, nextMyNewPos, dir);
@@ -209,6 +208,10 @@ public class Board {
         return board[p.getRow()][p.getColumn()];
     }
 
+    /**
+     * Détecter la victoire si les caisses sont sur des cases de type Target
+     * @return retourner vrai ss'il y a victoire
+     */
     public boolean victory() {
         boolean b = true;
 
@@ -222,6 +225,10 @@ public class Board {
         return b;
     }
 
+    /**
+     * Constituer un tableau de String contenant chaque ligne du plateau
+     * @return retourner le tableau
+     */
     public String[] getRowsBoard() {
         String s = "";
         for (int i = 0; i < height; i++) {

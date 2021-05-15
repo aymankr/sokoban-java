@@ -8,20 +8,41 @@ import sokoban.board.Board;
 import java.io.PrintStream;
 import java.util.Scanner;
 
+/**
+ * Classe main administateur
+ *
+ * @author Ayman KACHMAR
+ */
 public class Administrator {
 
     private static final PrintStream out = System.out;
     private static Database database;
 
+    /**
+     * Main de l'administateur
+     * 
+     * @param args
+     * @throws DatabaseException
+     * @throws BuildException 
+     */
     public static void main(String[] args) throws DatabaseException, BuildException {
         out.println("* Bonjour.");
         menuAdmin();
     }
 
+    /**
+     * Constructeur d'un administrateur
+     * @throws DatabaseException 
+     */
     public Administrator() throws DatabaseException {
         database = new Database();
     }
 
+    /**
+     * Menu administrateur
+     * @throws DatabaseException
+     * @throws BuildException 
+     */
     private static void menuAdmin() throws DatabaseException, BuildException {
         boolean loop = true;
 
@@ -56,16 +77,29 @@ public class Administrator {
         }
     }
 
+    /**
+     * Afficher tous les plateaux de la base
+     * @throws DatabaseException 
+     */
     public static void displayAllBoards() throws DatabaseException {
         database.displayBoards();
     }
 
+    /**
+     * Créer une nouvelle base de données
+     * @throws DatabaseException 
+     */
     private static void createNewBase() throws DatabaseException {
         /*database = new Database();
         database.remove("", false);*/
         database = new Database();
     }
 
+    /**
+     * Ajouter le board au choix de l'utilisateur
+     * @throws BuildException
+     * @throws DatabaseException 
+     */
     private static void addBoard() throws BuildException, DatabaseException {
         String absolutePath = System.getProperty("user.dir").replace('\\', '/') + "/datafiles/";
 
@@ -83,6 +117,10 @@ public class Administrator {
         database.add(id, board);
     }
 
+    /**
+     * Afficher le plateau choisi par l'utilisateur
+     * @throws DatabaseException 
+     */
     private static void displayABoard() throws DatabaseException {
         database.displayBoards();
         out.println("Veuillez saisir l'id du plateau à afficher : ");
@@ -95,6 +133,10 @@ public class Administrator {
         }
     }
 
+    /**
+     * Supprimer un plateau de la base
+     * @throws DatabaseException 
+     */
     private static void removeBoard() throws DatabaseException {
         database.displayBoards();
         out.println("Veuillez saisir l'id du plateau à supprimer : ");
@@ -108,6 +150,12 @@ public class Administrator {
         }
     }
 
+    /**
+     * Récupérer un plateau de la base
+     * @return retourner ce plateau
+     * @throws DatabaseException
+     * @throws BuildException 
+     */
     public static Board getBoard() throws DatabaseException, BuildException {
         out.println("Veuillez saisir l'id du plateau de jeu : ");
         String id = readLine();

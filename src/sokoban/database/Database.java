@@ -12,11 +12,20 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashSet;
 
+/**
+ * Constructeur d'une base
+ *
+ * @author Ayman KACHMAR
+ */
 public class Database {
 
     private static final PrintStream out = System.out;
     private final Connection connection;
 
+    /**
+     * Constructeur d'une base
+     * @throws DatabaseException 
+     */
     public Database() throws DatabaseException {
         try {
             Class.forName("org.sqlite.JDBC");
@@ -27,6 +36,10 @@ public class Database {
         }
     }
 
+    /**
+     * Création des tables
+     * @throws DatabaseException 
+     */
     private void createDatas() throws DatabaseException {
         try {
             String createBoardsSQL = "CREATE TABLE IF NOT EXISTS `boards`(" + " `board_id` text not null,"
@@ -46,6 +59,13 @@ public class Database {
         }
     }
 
+    /**
+     * Ajouter un plateau de type Board en lui attribuant son id dans la base
+     * @param id id du board
+     * @param b le board
+     * @throws DatabaseException
+     * @throws BuildException 
+     */
     public void add(String id, Board b) throws DatabaseException, BuildException {
         String insertBoardSQL = "INSERT INTO `boards` (board_id, name, nb_rows, nb_cols) VALUES(?, ?, ?, ?)";
         String insertRowSQL = "INSERT INTO `rows` (board_id, row_num, description) VALUES(?, ?, ?)";
@@ -74,6 +94,12 @@ public class Database {
         }
     }
 
+    /**
+     * Supprimer un plateau de la base en fonction de l'id entré
+     * @param id l'id
+     * @param isDeletingOne vrai ss'il y a suppression d'un seul plateau
+     * @throws DatabaseException 
+     */
     public void remove(String id, boolean isDeletingOne) throws DatabaseException {
         String deleteFromIdSQL = "";
         if (isDeletingOne) {
@@ -98,6 +124,13 @@ public class Database {
         }
     }
 
+    /**
+     * Récupérer un plateau de la base en fonction de l'id entré 
+     * @param id l'id
+     * @return retourner le plateau
+     * @throws DatabaseException
+     * @throws BuildException 
+     */
     public Board get(String id) throws DatabaseException, BuildException {
         String getNameSQL = "SELECT name FROM boards WHERE board_id = ?";
         String getBoardSQL = "SELECT description FROM rows WHERE board_id = ?";
@@ -122,6 +155,10 @@ public class Database {
         return builder.build();
     }
 
+    /**
+     * Afficher les plateaux de la base
+     * @throws DatabaseException 
+     */
     public void displayBoards() throws DatabaseException {
         out.println("BOARDS");
         String getAllBoardsSQL = "SELECT * FROM boards";
@@ -148,6 +185,11 @@ public class Database {
         }
     }
 
+    /**
+     * Afficher les lignes d'un board choisi correspondant à l'id entré
+     * @param boardId l'id
+     * @throws DatabaseException 
+     */
     public void displayRows(String boardId) throws DatabaseException {
         out.println("ROWS");
         String getAllRowsSQL = "SELECT * FROM rows WHERE board_id LIKE '" + boardId + "'";
@@ -174,6 +216,11 @@ public class Database {
         }
     }
 
+    /**
+     * Récolter tous les id des boards de la base
+     * @return retourner la collection
+     * @throws DatabaseException 
+     */
     public HashSet<String> getAllIDs() throws DatabaseException {
         String getIdsSQL = "SELECT board_id FROM boards";
         HashSet<String> allIds = new HashSet<>();

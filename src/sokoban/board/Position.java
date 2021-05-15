@@ -1,7 +1,7 @@
 package sokoban.board;
 
 /**
- * Constructeur d'une position
+ * Classe position
  *
  * @author Ayman KACHMAR
  */
@@ -11,7 +11,7 @@ public class Position {
     private final int column;
 
     /**
-     * Constructeur d'un Coordonnees
+     * Constructeur d'une position
      *
      * @param numRow numero de ligne
      * @param numCol numero de la colonne

@@ -1,14 +1,14 @@
 package sokoban.board;
 
 /**
- * Constructeur d'une case
+ * Classe case
  *
  * @author Ayman KACHMAR
  */
 public class Cell {
 
     private final Position pos;
-    private char object;
+    private char object; // objet correspondant à la case
     private boolean isTarget;
 
     /**
@@ -89,6 +89,9 @@ public class Cell {
         return pos;
     }
 
+    /**
+     * Mettre l'attribut isTarget à vrai pour cette case
+     */
     public void setIsTarget() {
         isTarget = true;
     }

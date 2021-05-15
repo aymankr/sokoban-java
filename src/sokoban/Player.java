@@ -7,7 +7,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
- * Classe main
+ * Classe main Player
  *
  * @author Ayman KACHMAR
  */
@@ -27,6 +27,12 @@ public class Player {
         menuPlayer();
     }
 
+    /**
+     * Menu principal pour une partie
+     * 
+     * @throws DatabaseException
+     * @throws BuildException 
+     */
     private static void menuPlayer() throws DatabaseException, BuildException {
         boolean loop = true;
         final Administrator admin = new Administrator();
@@ -55,7 +61,7 @@ public class Player {
     }
 
     /**
-     * Le jeu
+     * Une partie
      */
     private static void game() throws BuildException {
         boolean victory = false;
@@ -93,7 +99,8 @@ public class Player {
     }
 
     /**
-     * Vérifier que l'utilisateur peut uniquement entrer "L,R,U,D"
+     * Vérifier que l'utilisateur peut uniquement entrer "L,R,U,D" et les
+     * minuscules
      *
      * @param entry l'entrée
      * @return retourner vrai ss'il entre ceci

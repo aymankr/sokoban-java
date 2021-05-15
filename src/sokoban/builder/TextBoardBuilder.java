@@ -3,6 +3,11 @@ package sokoban.builder;
 import sokoban.board.BuildException;
 import sokoban.board.Board;
 
+/**
+ * Classe d'un TextBoardBuilder
+ *
+ * @author Ayman KACHMAR
+ */
 public class TextBoardBuilder implements BoardBuilder {
 
     private final String name;
@@ -10,16 +15,30 @@ public class TextBoardBuilder implements BoardBuilder {
     private int height;
     private String textBoard;
 
+    /**
+     * Constructeur d'un TextBoardBuilder
+     * @param name 
+     */
     public TextBoardBuilder(String name) {
         this.name = name;
         this.textBoard = "";
     }
 
+    /**
+     * Ajouter des lignes à la chaine de caractère correspondant au plateau
+     * @param row 
+     */
     public void addRow(String row) {
         textBoard += row + "\n";
         height++;
     }
-    
+
+    /**
+     * Construire un plateau en fonction des lignes ajoutées par la méthode
+     * addRow et attribuer à chaque case son objet
+     * @return retourner le plateau
+     * @throws BuildException 
+     */
     @Override
     public Board build() throws BuildException {
         String[] rows = textBoard.replace(" ", "").split("\n");

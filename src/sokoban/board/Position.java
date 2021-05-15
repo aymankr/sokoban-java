@@ -1,7 +1,5 @@
 package sokoban.board;
 
-import sokoban.board.Board;
-
 /**
  * Constructeur d'une position
  *

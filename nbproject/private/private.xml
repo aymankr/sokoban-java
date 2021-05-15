@@ -3,18 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/Case.java</file>
-            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/Database.java</file>
-            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/TextBoardBuilder.java</file>
-            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/BoardBuilder.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/board/Cell.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/database/Database.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/board/BuildException.java</file>
             <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/Administrator.java</file>
-            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/Direction.java</file>
-            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/DatabaseException.java</file>
-            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/Position.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/database/DatabaseException.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/board/Position.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/test/GameTest.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/builder/TextBoardBuilder.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/test/FileTextBoardBuilder.java</file>
             <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/Player.java</file>
-            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/FileBoardBuilder.java</file>
-            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/Board.java</file>
-            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/BuildException.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/board/Board.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/test/DatabaseTest.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/builder/BoardBuilder.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/board/Direction.java</file>
+            <file>file:/C:/Users/A/Documents/NetBeansProjects/sokoban/src/sokoban/builder/FileBoardBuilder.java</file>
         </group>
     </open-files>
 </project-private>

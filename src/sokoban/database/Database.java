@@ -174,7 +174,7 @@ public class Database {
         }
     }
 
-    private HashSet<String> getAllIDs() throws DatabaseException {
+    public HashSet<String> getAllIDs() throws DatabaseException {
         String getIdsSQL = "SELECT board_id FROM boards";
         HashSet<String> allIds = new HashSet<>();
 
@@ -189,9 +189,5 @@ public class Database {
             throw new DatabaseException(ex.getMessage());
         }
         return allIds;
-    }
-
-    public boolean idExists(String id) throws DatabaseException {
-        return getAllIDs().contains(id);
     }
 }

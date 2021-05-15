@@ -87,7 +87,7 @@ public class Administrator {
         database.displayBoards();
         out.println("Veuillez saisir l'id du plateau à afficher : ");
         String id = readLine();
-        if (database.idExists(id)) {
+        if (database.getAllIDs().contains(id)) {
             database.displayRows(id);
         } else {
             out.println("id introuvable.");
@@ -99,7 +99,7 @@ public class Administrator {
         database.displayBoards();
         out.println("Veuillez saisir l'id du plateau à supprimer : ");
         String id = readLine();
-        if (database.idExists(id)) {
+        if (database.getAllIDs().contains(id)) {
             database.remove(id, true);
             out.println("succès.");
         } else {
@@ -113,7 +113,7 @@ public class Administrator {
         String id = readLine();
         Board board;
 
-        if (database.idExists(id)) {
+        if (database.getAllIDs().contains(id)) {
             board = database.get(id);
         } else {
             out.println("id introuvable.");

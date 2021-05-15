@@ -5,7 +5,7 @@ package sokoban.board;
  *
  * @author Ayman KACHMAR
  */
-public class Case {
+public class Cell {
 
     private final Position pos;
     private char object;
@@ -16,7 +16,7 @@ public class Case {
      *
      * @param pos sa position
      */
-    public Case(Position pos) {
+    public Cell(Position pos) {
         this.pos = pos;
         this.object = '.';
         this.isTarget = false;
@@ -27,7 +27,7 @@ public class Case {
      *
      * @return retourner le caractère
      */
-    public char getCase() {
+    public char getCell() {
         return object;
     }
 

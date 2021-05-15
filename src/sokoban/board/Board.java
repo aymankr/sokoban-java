@@ -12,9 +12,9 @@ public class Board {
     private final String name;
     private final int height;
     private final int width;
-    private final Case[][] board;
+    private final Cell[][] board;
     private Position myPosition;
-    private static final HashSet<Case> listBoxes = new HashSet<Case>();
+    private static final HashSet<Cell> listBoxes = new HashSet<Cell>();
 
     /**
      * Constructeur d'un plateau
@@ -27,7 +27,7 @@ public class Board {
         this.name = name;
         this.height = height;
         this.width = width;
-        this.board = new Case[height][width];
+        this.board = new Cell[height][width];
         initBoard();
     }
 
@@ -39,7 +39,7 @@ public class Board {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Position c = new Position(i, j);
-                board[i][j] = new Case(c);
+                board[i][j] = new Cell(c);
             }
         }
     }
@@ -50,7 +50,7 @@ public class Board {
     public void display() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                System.out.print(board[i][j].getCase() + " ");
+                System.out.print(board[i][j].getCell() + " ");
             }
             System.out.println("");
         }
@@ -112,7 +112,7 @@ public class Board {
      * @param y ordonée
      */
     public void setMyPos(int x, int y) {
-        Case c = board[x][y];
+        Cell c = board[x][y];
         myPosition = c.getPos();
         c.setCar('P', false);
     }
@@ -129,13 +129,15 @@ public class Board {
             Position myNewPos = myPosition.nextPosition(dir);
             Position nextMyNewPos = myNewPos.nextPosition(dir);
 
-            if (myNewPos.isInBoard(this) && !getCase(myNewPos).isWall() && !getCase(myNewPos).isBox()) {
+            if (myNewPos.isInBoard(this) && !getCell(myNewPos).isWall() && !getCell(myNewPos).isBox()) {
                 refreshMyPosition(myNewPos);
-            } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this) && !getCase(nextMyNewPos).isWall()
-                    && getCase(myNewPos).isBox() && !getCase(nextMyNewPos).isBox()) {
+
+            } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this) && !getCell(nextMyNewPos).isWall()
+                    && getCell(myNewPos).isBox() && !getCell(nextMyNewPos).isBox()) {
                 refreshBoxPosition(myNewPos, nextMyNewPos, dir);
                 refreshMyPosition(myNewPos);
             }
+            setMyPos(getMyPosition().getRow(), getMyPosition().getColumn());
         }
     }
 
@@ -146,9 +148,9 @@ public class Board {
      * @param newPos nouvelle position
      */
     private void refreshBoxPosition(Position oldPos, Position newPos, Direction d) {
-        getCase(newPos).setCar('B', false);
-        listBoxes.remove(getCase(oldPos));
-        listBoxes.add(getCase(newPos));
+        getCell(newPos).setCar('B', false);
+        listBoxes.remove(getCell(oldPos));
+        listBoxes.add(getCell(newPos));
     }
 
     /**
@@ -157,7 +159,7 @@ public class Board {
      * @param myNewPos nouvelle position
      */
     private void refreshMyPosition(Position myNewPos) {
-        getCase(myPosition).setCar('.', true);
+        getCell(myPosition).setCar('.', true);
         myPosition = myNewPos;
     }
 
@@ -203,14 +205,14 @@ public class Board {
      * @param p la position
      * @return retourner la case
      */
-    public Case getCase(Position p) {
+    public Cell getCell(Position p) {
         return board[p.getRow()][p.getColumn()];
     }
 
     public boolean victory() {
         boolean b = true;
 
-        for (Case c : listBoxes) {
+        for (Cell c : listBoxes) {
             b = b && c.isATarget();
         }
 
@@ -224,7 +226,7 @@ public class Board {
         String s = "";
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                s += board[i][j].getCase() + " ";
+                s += board[i][j].getCell() + " ";
             }
             s += "\n";
         }

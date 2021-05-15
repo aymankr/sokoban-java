@@ -84,7 +84,6 @@ public class Player {
 
         if (possibleEntry(entry)) {
             b.refreshPositions(entry.toUpperCase());
-            b.setMyPos(b.getMyPosition().getRow(), b.getMyPosition().getColumn());
         } else if (entry.equals("q")) {
             playing = false;
             System.out.println("Bye.");

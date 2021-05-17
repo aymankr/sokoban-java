@@ -20,10 +20,10 @@ public class Administrator {
 
     /**
      * Main de l'administateur
-     * 
+     *
      * @param args
      * @throws DatabaseException
-     * @throws BuildException 
+     * @throws BuildException
      */
     public static void main(String[] args) throws DatabaseException, BuildException {
         out.println("* Bonjour.");
@@ -32,7 +32,8 @@ public class Administrator {
 
     /**
      * Constructeur d'un administrateur
-     * @throws DatabaseException 
+     *
+     * @throws DatabaseException
      */
     public Administrator() throws DatabaseException {
         database = new Database();
@@ -40,11 +41,13 @@ public class Administrator {
 
     /**
      * Menu administrateur
+     *
      * @throws DatabaseException
-     * @throws BuildException 
+     * @throws BuildException
      */
     private static void menuAdmin() throws DatabaseException, BuildException {
         boolean loop = true;
+        database = new Database();
 
         while (loop) {
             out.println("* Menu");
@@ -58,7 +61,7 @@ public class Administrator {
             String command = readLine();
             switch (command) {
                 case "1" ->
-                    createNewBase();
+                    database.remove("", false);
                 case "2" ->
                     displayAllBoards();
                 case "3" ->
@@ -79,26 +82,18 @@ public class Administrator {
 
     /**
      * Afficher tous les plateaux de la base
-     * @throws DatabaseException 
+     *
+     * @throws DatabaseException
      */
     public static void displayAllBoards() throws DatabaseException {
         database.displayBoards();
     }
 
     /**
-     * Créer une nouvelle base de données
-     * @throws DatabaseException 
-     */
-    private static void createNewBase() throws DatabaseException {
-        /*database = new Database();
-        database.remove("", false);*/
-        database = new Database();
-    }
-
-    /**
      * Ajouter le board au choix de l'utilisateur
+     *
      * @throws BuildException
-     * @throws DatabaseException 
+     * @throws DatabaseException
      */
     private static void addBoard() throws BuildException, DatabaseException {
         String absolutePath = System.getProperty("user.dir").replace('\\', '/') + "/datafiles/";
@@ -119,7 +114,8 @@ public class Administrator {
 
     /**
      * Afficher le plateau choisi par l'utilisateur
-     * @throws DatabaseException 
+     *
+     * @throws DatabaseException
      */
     private static void displayABoard() throws DatabaseException {
         database.displayBoards();
@@ -135,7 +131,8 @@ public class Administrator {
 
     /**
      * Supprimer un plateau de la base
-     * @throws DatabaseException 
+     *
+     * @throws DatabaseException
      */
     private static void removeBoard() throws DatabaseException {
         database.displayBoards();
@@ -152,9 +149,10 @@ public class Administrator {
 
     /**
      * Récupérer un plateau de la base
+     *
      * @return retourner ce plateau
      * @throws DatabaseException
-     * @throws BuildException 
+     * @throws BuildException
      */
     public static Board getBoard() throws DatabaseException, BuildException {
         out.println("Veuillez saisir l'id du plateau de jeu : ");

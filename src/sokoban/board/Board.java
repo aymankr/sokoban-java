@@ -132,11 +132,11 @@ public class Board {
             if (myNewPos.isInBoard(this) && !getCell(myNewPos).isWall() && !getCell(myNewPos).isBox()) {
                 refreshMyPosition(myNewPos);
             } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this) && !getCell(nextMyNewPos).isWall()
-                    && getCell(myNewPos).isBox() && !getCell(nextMyNewPos).isBox()) {
+                    && getCell(myNewPos).isBox()) {
                 refreshBoxPosition(myNewPos, nextMyNewPos, dir);
                 refreshMyPosition(myNewPos);
             }
-            setMyPos(getMyPosition().getRow(), getMyPosition().getColumn());
+            setMyPos(myPosition.getRow(), myPosition.getColumn());
         }
     }
 
@@ -146,10 +146,16 @@ public class Board {
      * @param oldPos ancienne position
      * @param newPos nouvelle position
      */
-    private void refreshBoxPosition(Position oldPos, Position newPos, Direction d) {
+    private void refreshBoxPosition(Position oldPos, Position newPos, Direction dir) {
         getCell(newPos).setCar('B', false);
         listBoxes.remove(getCell(oldPos));
         listBoxes.add(getCell(newPos));
+
+        Position tmp = newPos.nextPosition(dir);
+        char c = getCell(tmp).getCell();
+        if (c == 'B') {
+            refreshBoxPosition(newPos, tmp.nextPosition(dir), dir);
+        }
     }
 
     /**
@@ -210,6 +216,7 @@ public class Board {
 
     /**
      * Détecter la victoire si les caisses sont sur des cases de type Target
+     *
      * @return retourner vrai ss'il y a victoire
      */
     public boolean victory() {
@@ -227,6 +234,7 @@ public class Board {
 
     /**
      * Constituer un tableau de String contenant chaque ligne du plateau
+     *
      * @return retourner le tableau
      */
     public String[] getRowsBoard() {

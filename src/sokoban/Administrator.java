@@ -96,11 +96,11 @@ public class Administrator {
      * @throws DatabaseException
      */
     private static void addBoard() throws BuildException, DatabaseException {
-        String absolutePath = System.getProperty("user.dir").replace('\\', '/') + "/datafiles/";
+        String sourcePath = System.getProperty("user.dir").replace('\\', '/') + "/datafiles/";
 
         out.println("Veuillez saisir le nom du fichier texte situé dans datafiles (exemple : 'nomdufichier.txt')");
         String boardFile = readLine();
-        String path = absolutePath + boardFile;
+        String path = sourcePath + boardFile;
 
         out.println("Veuillez nommer votre plateau : ");
         String name = readLine();

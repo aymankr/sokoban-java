@@ -48,7 +48,7 @@ public class Database {
 
             String createRowsSQL = "CREATE TABLE IF NOT EXISTS `rows`(" + " `board_id` text not null,"
                     + " `row_num` integer not null," + " `description` text not null,"
-                    + " primary key (`board_id`),"
+                    + " primary key (`board_id`, 'row_num'),"
                     + " foreign key (`board_id`) references `boards` (`board_id`))";
 
             Statement statement = connection.createStatement();

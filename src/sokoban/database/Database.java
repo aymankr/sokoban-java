@@ -179,6 +179,7 @@ public class Database {
                         id, name, numRows, numCols);
             }
             out.println("|-------------|---------------------------|---------|---------|");
+            
 
         } catch (SQLException ex) {
             throw new DatabaseException(ex.getMessage());

@@ -1,4 +1,5 @@
 package sokoban.builder;
+
 import sokoban.board.BuildException;
 import sokoban.board.Board;
 import java.io.File;
@@ -17,6 +18,7 @@ public class FileBoardBuilder implements BoardBuilder {
 
     /**
      * Constructeur d'un FileBoardBuilder
+     *
      * @param path chemin du fichier
      * @param name nom du plateau
      */
@@ -27,17 +29,17 @@ public class FileBoardBuilder implements BoardBuilder {
 
     /**
      * Construire un plateau de type Board en fonction du fichier lu, en
-     * utilisant un TextBoardBuilder et la méthode addRow pour ajouter
-     * chaque ligne
-     * 
+     * utilisant un TextBoardBuilder et la méthode addRow pour ajouter chaque
+     * ligne
+     *
      * @return retourner le plateau
-     * @throws BuildException 
+     * @throws BuildException
      */
     @Override
     public Board build() throws BuildException {
 
         TextBoardBuilder textBoard = new TextBoardBuilder(boardName);
-        try (Scanner scanner = new Scanner(new File(path))) {
+        try ( Scanner scanner = new Scanner(new File(path))) {
             while (scanner.hasNextLine()) {
                 String row = scanner.nextLine();
                 textBoard.addRow(row);
@@ -47,6 +49,10 @@ public class FileBoardBuilder implements BoardBuilder {
         }
 
         Board board = textBoard.build();
+
+        if (!textBoard.isAValidBoard()) {
+            throw new BuildException("le plateau ne peut pas être construit, les règles ne sont pas respectées.");
+        }
         return board;
     }
 }

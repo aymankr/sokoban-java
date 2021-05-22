@@ -14,7 +14,6 @@ public class TextBoardBuilder implements BoardBuilder {
     private int width;
     private int height;
     private String textBoard;
-    private boolean isValidBoard = true;
     int nbTargets = 0;
     int nbBoxes = 0;
     int nbMyPos = 0;
@@ -72,13 +71,6 @@ public class TextBoardBuilder implements BoardBuilder {
                             board.setMyPos(numRow, i);
                             nbMyPos++;
                         }
-                        case '.' -> {
-                        }
-                        case ' ' -> {
-
-                        }
-                        default ->
-                            isValidBoard = false;
                     }
                 }
                 numRow++;
@@ -91,7 +83,7 @@ public class TextBoardBuilder implements BoardBuilder {
     }
 
     public boolean isAValidBoard() {
-        return (width >= 3 && height >= 3 && nbBoxes == nbTargets && nbBoxes != 0 && nbTargets != 0 && nbMyPos == 1);
+        return width >= 3 && height >= 3 && nbBoxes == nbTargets && nbTargets != 0 && nbMyPos == 1;
     }
 }
 

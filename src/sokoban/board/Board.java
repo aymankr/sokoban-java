@@ -119,7 +119,9 @@ public class Board {
 
     /**
      * Actualiser les positions du plateau en vérifiant qu'il n'y a pas de mur
-     * en face et que l'on reste dans le plateau
+     * en face et que l'on reste dans le plateau. Pour déplacer plusieurs
+     * caisses on récolte la position de la dernière caisse de la queue pour
+     * utiliser refreshBoxPosition
      *
      * @param entry entrée de l'utilisateur
      */
@@ -127,17 +129,34 @@ public class Board {
         for (int i = 0; i < entry.length(); i++) {
             Direction dir = Direction.dirCorrespond(entry.charAt(i));
             Position myNewPos = myPosition.nextPosition(dir);
-            Position nextMyNewPos = myNewPos.nextPosition(dir);
+            Position lastBoxPos = findBox(myNewPos.nextPosition(dir), dir);
 
             if (myNewPos.isInBoard(this) && !getCell(myNewPos).isWall() && !getCell(myNewPos).isBox()) {
                 refreshMyPosition(myNewPos);
-            } else if (myNewPos.isInBoard(this) && nextMyNewPos.isInBoard(this) && !getCell(nextMyNewPos).isWall()
-                    && getCell(myNewPos).isBox() && !getCell(nextMyNewPos).isBox()) {
-                refreshBoxPosition(myNewPos, nextMyNewPos, dir);
+            } else if (myNewPos.isInBoard(this) && !getCell(lastBoxPos).isWall() && getCell(myNewPos).isBox()) {
+                refreshBoxPosition(myNewPos, lastBoxPos);
                 refreshMyPosition(myNewPos);
+            }
+            else {
+                System.out.println("Déplacement impossible.");
             }
             setMyPos(myPosition.getRow(), myPosition.getColumn());
         }
+    }
+
+    /**
+     * Trouver la position de la dernière caisse
+     *
+     * @param nextMyNewPos position où la caisse sera poussée
+     * @param dir direction
+     * @return retourner la position de la dernière caisse
+     */
+    private Position findBox(Position nextMyNewPos, Direction dir) {
+        Position next = nextMyNewPos;
+        while (next.isInBoard(this) && next.nextPosition(dir).isInBoard(this) && getCell(next).isBox()) {
+            next = next.nextPosition(dir);
+        }
+        return next;
     }
 
     /**
@@ -146,7 +165,7 @@ public class Board {
      * @param oldPos ancienne position
      * @param newPos nouvelle position
      */
-    private void refreshBoxPosition(Position oldPos, Position newPos, Direction dir) {
+    private void refreshBoxPosition(Position oldPos, Position newPos) {
         getCell(newPos).setCar('B', false);
         listBoxes.remove(getCell(oldPos));
         listBoxes.add(getCell(newPos));

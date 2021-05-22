@@ -137,9 +137,6 @@ public class Board {
                 refreshBoxPosition(myNewPos, lastBoxPos);
                 refreshMyPosition(myNewPos);
             }
-            else {
-                System.out.println("Déplacement impossible.");
-            }
             setMyPos(myPosition.getRow(), myPosition.getColumn());
         }
     }

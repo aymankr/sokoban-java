@@ -90,12 +90,24 @@ public class Administrator {
     }
 
     /**
-     * Ajouter le board au choix de l'utilisateur
+     * Ajouter le board au choix de l'utilisateur dans la base
      *
      * @throws BuildException
      * @throws DatabaseException
      */
     private static void addBoard() throws BuildException, DatabaseException {
+        Board board = requestBoard();
+        out.println("Veuillez saisir l'id de ce plateau dans la base : ");
+        String id = readLine();
+        database.add(id, board);
+    }
+
+    /**
+     * Demander à l'utilisateur de récupérer un plateau depuis un fichier
+     * @return
+     * @throws BuildException 
+     */
+    public static Board requestBoard() throws BuildException {
         String sourcePath = System.getProperty("user.dir").replace('\\', '/') + "/datafiles/";
 
         out.println("Veuillez saisir le nom du fichier texte situé dans datafiles (exemple : 'nomdufichier.txt')");
@@ -106,12 +118,10 @@ public class Administrator {
         String name = readLine();
         FileBoardBuilder fileBoard = new FileBoardBuilder(path, name);
         Board board = fileBoard.build();
-
-        out.println("Veuillez saisir l'id de ce plateau dans la base : ");
-        String id = readLine();
-        database.add(id, board);
+        
+        return board;
     }
-
+    
     /**
      * Afficher le plateau choisi par l'utilisateur
      *
@@ -123,7 +133,7 @@ public class Administrator {
         String id = readLine();
         if (database.getAllIDs().contains(id)) {
             database.displayRows(id);
-        } else {
+        } else if (!id.equals(("q"))) {
             out.println("id introuvable.");
             displayABoard();
         }
@@ -141,7 +151,7 @@ public class Administrator {
         if (database.getAllIDs().contains(id)) {
             database.remove(id, true);
             out.println("succès.");
-        } else {
+        } else if (!id.equals(("q"))) {
             out.println("id introuvable.");
             removeBoard();
         }

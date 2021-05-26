@@ -133,7 +133,7 @@ public class Board {
 
             if (myNewPos.isInBoard(this) && !getCell(myNewPos).isWall() && !getCell(myNewPos).isBox()) {
                 refreshMyPosition(myNewPos);
-            } else if (myNewPos.isInBoard(this) && !getCell(lastBoxPos).isWall() && getCell(myNewPos).isBox()) {
+            } else if (myNewPos.isInBoard(this) && !getCell(myNewPos).isWall() && !getCell(lastBoxPos).isWall() && getCell(myNewPos).isBox()) {
                 refreshBoxPosition(myNewPos, lastBoxPos);
                 refreshMyPosition(myNewPos);
             }

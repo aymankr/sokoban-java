@@ -39,7 +39,8 @@ public class Player {
 
         while (loop) {
             out.println("* Menu");
-            out.println("1. Sélectionner un plateau pour jouer.");
+            out.println("1. Sélectionner un plateau depuis la base.");
+            out.println("2. Sélectionner un plateau depuis un fichier.");
             out.println("q. Quitter.");
             out.print("? ");
             String command = readLine();
@@ -47,6 +48,11 @@ public class Player {
                 case "1" -> {
                     admin.displayAllBoards();
                     board = admin.getBoard();
+                    game();
+                    loop = false;
+                }
+                case "2" -> {
+                    board = Administrator.requestBoard();
                     game();
                     loop = false;
                 }

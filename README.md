@@ -1,6 +1,6 @@
 # Sokoban
 
-In this game, the goal is to push all the crates into a target, the number of crates is equal to the number of targets. It can sometimes be difficult to place all the boxes to their target if the level is difficult (many walls, resemblances to a maze...)
+In this game, the goal is to push all the boxes (B) into a target (X), the number of boxes is equal to the number of targets. It can sometimes be difficult to place all the boxes to their target if the level is difficult (many walls, resemblances to a maze...)
 
 Levels are loaded from a text file and are stored in a database. You can add or remove levels from the database.
 
